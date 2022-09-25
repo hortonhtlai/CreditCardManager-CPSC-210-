@@ -19,3 +19,10 @@ Anyone who uses credit cards regularly will benefit from my elegant solution.
 Personal finance management is crucial in life. While users are enticed with numerous credit card sign-up bonuses and 
 special offers, comparing promotion details and monitoring end dates are often difficult. With my credit card manager,
 users will be reaping these financial benefits without a hitch.
+
+### User Stories
+
+- As a user, I want to be able to add a credit card to my wallet
+- As a user, I want to be able to view the list of credit cards in my wallet
+- As a user, I want to be able to select a credit card and check its promotion details and end date
+- As a user, I want to be able to mark a credit card in my wallet as inactive
