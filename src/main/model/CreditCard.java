@@ -2,6 +2,13 @@ package model;
 
 // Represents a credit card
 public class CreditCard {
+    private String name;
+    private int last4Digits;
+    private int promotionEndYear;
+    private int promotionEndMonth;
+    private int promotionEndDate;
+    private String promotionDetails;
+    private boolean isActive;
 
     // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122] AND
     //           promotionEndMonth is between [1, 12] AND promotionEndDate is between [1, 31] AND promotionEndYear,
@@ -13,61 +20,79 @@ public class CreditCard {
                       int promotionEndMonth,
                       int promotionEndDate,
                       String promotionDetails) {
-        // stub
+        this.name = name;
+        this.last4Digits = last4Digits;
+        this.promotionEndYear = promotionEndYear;
+        this.promotionEndMonth = promotionEndMonth;
+        this.promotionEndDate = promotionEndDate;
+        this.promotionDetails = promotionDetails;
+        this.isActive = true;
     }
 
     // EFFECTS: returns name, last4Digits, promotionEndYear, promotionEndMonth, promotionEndDate, and promotionDetails
     //          of credit card in sentences
     public String checkCreditCardDetails() {
-        return null; // stub
+        String activeStatusReport;
+        if (isActive) {
+            activeStatusReport = "status is active";
+        } else {
+            activeStatusReport = "status is inactive";
+        }
+        return "name is " + name
+                + ", last4Digits are " + last4Digits
+                + ", promotionEndYear is " + promotionEndYear
+                + ", promotionEndMonth is " + promotionEndMonth
+                + ", promotionEndDate is " + promotionEndDate
+                + ", promotionDetails are " + promotionDetails
+                + ", " + activeStatusReport;
     }
 
     // REQUIRES: credit card is active
     // MODIFIES: this
     // EFFECTS: switches credit card to inactive
     public void inactivate() {
-        // stub
+        isActive = false;
     }
 
     // REQUIRES: credit card is inactive
     // MODIFIES: this
     // EFFECTS: switches credit card to active
     public void reactivate() {
-        // stub
+        isActive = true;
     }
 
     // EFFECTS: returns name of credit card
     public String getName() {
-        return ""; // stub
+        return name;
     }
 
     // EFFECTS: returns last4Digits of credit card
     public int getLast4Digits() {
-        return 0; // stub
+        return last4Digits;
     }
 
     // EFFECTS: returns promotionEndYear of credit card
     public int getPromotionEndYear() {
-        return 0; // stub
+        return promotionEndYear;
     }
 
     // EFFECTS: returns promotionEndMonth of credit card
     public int getPromotionEndMonth() {
-        return 0; // stub
+        return promotionEndMonth;
     }
 
     // EFFECTS: returns promotionEndDate of credit card
     public int getPromotionEndDate() {
-        return 0; // stub
+        return promotionEndDate;
     }
 
     // EFFECTS: returns promotionDetails of credit card
     public String getPromotionDetails() {
-        return ""; //stub
+        return promotionDetails;
     }
 
     // EFFECTS: returns true if credit card is active or false otherwise
     public boolean getActiveStatus() {
-        return true; // stub
+        return isActive;
     }
 }
