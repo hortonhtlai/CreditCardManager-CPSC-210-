@@ -35,4 +35,39 @@ public class CreditCard {
     public void reactivate() {
         // stub
     }
+
+    // EFFECTS: returns name of credit card
+    public String getName() {
+        return ""; // stub
+    }
+
+    // EFFECTS: returns last4Digits of credit card
+    public int getLast4Digits() {
+        return 0; // stub
+    }
+
+    // EFFECTS: returns promotionEndYear of credit card
+    public int getPromotionEndYear() {
+        return 0; // stub
+    }
+
+    // EFFECTS: returns promotionEndMonth of credit card
+    public int getPromotionEndMonth() {
+        return 0; // stub
+    }
+
+    // EFFECTS: returns promotionEndDate of credit card
+    public int getPromotionEndDate() {
+        return 0; // stub
+    }
+
+    // EFFECTS: returns promotionDetails of credit card
+    public String getPromotionDetails() {
+        return ""; //stub
+    }
+
+    // EFFECTS: returns true if credit card is active or false otherwise
+    public boolean getActiveStatus() {
+        return true; // stub
+    }
 }

@@ -10,17 +10,10 @@ public class Wallet {
         // stub
     }
 
-    // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122] AND
-    //           promotionEndMonth is between [1, 12] AND promotionEndDate is between [1, 31] AND promotionEndYear,
-    //           promotionEndMonth, and promotionEndDate form a valid date in the future
+    // REQUIRES: newCard is not already in wallet
     // MODIFIES: this
-    // EFFECTS: adds a new credit card with given information to wallet
-    public void addCreditCard(String name,
-                              int last4Digits,
-                              int promotionEndYear,
-                              int promotionEndMonth,
-                              int promotionEndDate,
-                              String promotionDetails) {
+    // EFFECTS: adds newCard to wallet
+    public void addCreditCard(CreditCard newCard) {
         // stub
     }
 
@@ -29,8 +22,13 @@ public class Wallet {
         return null; // stub
     }
 
-    // EFFECTS: selects credit card with given name
+    // EFFECTS: returns credit card with given name
     public CreditCard selectCreditCard(String name) {
+        return null; // stub
+    }
+
+    // EFFECTS: returns list of credit cards in wallet
+    public List<CreditCard> getCreditCardList() {
         return null; // stub
     }
 }
