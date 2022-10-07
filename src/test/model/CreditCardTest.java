@@ -46,18 +46,6 @@ class CreditCardTest {
     }
 
     @Test
-    public void testCheckCreditCardDetails() {
-        assertEquals("name is Bank A Cash Back, last4Digits are 0, promotionEndYear is 2022, " +
-                "promotionEndMonth is 12, promotionEndDate is 31, promotionDetails are 2% cash back on all " +
-                "purchases, status is active", testCreditCard1.checkCreditCardDetails());
-
-        testCreditCard2.inactivate();
-        assertEquals("name is Bank B Travel Rewards, last4Digits are 4917, promotionEndYear is 2053, " +
-                "promotionEndMonth is 3, promotionEndDate is 2, promotionDetails are 3X reward points per $1 " +
-                "spent on flights, status is inactive", testCreditCard2.checkCreditCardDetails());
-    }
-
-    @Test
     public void testInactivate() {
         testCreditCard1.inactivate();
         assertFalse(testCreditCard1.getActiveStatus());

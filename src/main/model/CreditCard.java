@@ -29,24 +29,6 @@ public class CreditCard {
         this.isActive = true;
     }
 
-    // EFFECTS: returns name, last4Digits, promotionEndYear, promotionEndMonth, promotionEndDate, and promotionDetails
-    //          of credit card in sentences
-    public String checkCreditCardDetails() {
-        String activeStatusReport;
-        if (isActive) {
-            activeStatusReport = "status is active";
-        } else {
-            activeStatusReport = "status is inactive";
-        }
-        return "name is " + name
-                + ", last4Digits are " + last4Digits
-                + ", promotionEndYear is " + promotionEndYear
-                + ", promotionEndMonth is " + promotionEndMonth
-                + ", promotionEndDate is " + promotionEndDate
-                + ", promotionDetails are " + promotionDetails
-                + ", " + activeStatusReport;
-    }
-
     // REQUIRES: credit card is active
     // MODIFIES: this
     // EFFECTS: switches credit card to inactive

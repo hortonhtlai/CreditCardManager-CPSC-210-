@@ -51,16 +51,6 @@ public class WalletTest {
     }
 
     @Test
-    public void testViewCreditCardList() {
-        testWallet1.addCreditCard(testCreditCard1);
-        testWallet1.addCreditCard(testCreditCard2);
-        List<String> testCardNameList = testWallet1.viewCreditCardList();
-        assertEquals(2, testCardNameList.size());
-        assertEquals("Bank A Cash Back", testCardNameList.get(0));
-        assertEquals("Bank B Travel Rewards", testCardNameList.get(1));
-    }
-
-    @Test
     public void testSelectCreditCard() {
         testWallet1.addCreditCard(testCreditCard1);
         testWallet1.addCreditCard(testCreditCard2);

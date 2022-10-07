@@ -19,19 +19,14 @@ public class Wallet {
         creditCardList.add(newCard);
     }
 
-    // EFFECTS: returns list of names of credit cards in wallet
-    public List<String> viewCreditCardList() {
-        List<String> cardNameList = new ArrayList<>();
-        for (CreditCard c: creditCardList) {
-            cardNameList.add(c.getName());
-        }
-        return cardNameList;
-    }
-
     // EFFECTS: returns credit card with given name
-    public CreditCard selectCreditCard(String name) {
+    public CreditCard selectCreditCard(String queryName) {
+        queryName = queryName.toLowerCase();
+        String cardName;
         for (CreditCard c: creditCardList) {
-            if (c.getName().equals(name)) {
+            cardName = c.getName();
+            cardName = cardName.toLowerCase();
+            if (cardName.equals(queryName)) {
                 return c;
             }
         }
