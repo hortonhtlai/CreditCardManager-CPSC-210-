@@ -6,7 +6,7 @@ import model.Wallet;
 import java.util.Scanner;
 
 // Represents a credit card manager application
-// Code based on Teller application presented in CPSC 210
+// Code partially based on Teller application presented in CPSC 210 as indicated in each method
 public class CreditCardManagerApp {
     private Wallet wallet;
     private Scanner input;
@@ -67,10 +67,8 @@ public class CreditCardManagerApp {
             collectNewCardInfo();
         } else if (command.equals("list")) {
             displayCardList();
-        } else if (command.equals("details")) {
-            displayCardDetails();
-        } else if (command.equals("update")) {
-            updateCardActiveStatus();
+        } else if ((command.equals("details")) || (command.equals("update"))) {
+            selectCard(command);
         } else {
             System.out.println("\nThe command you entered is invalid. Please try again.");
         }
@@ -108,8 +106,26 @@ public class CreditCardManagerApp {
         }
     }
 
-    public void displayCardDetails() {
-        CreditCard selectedCard = selectCreditCard();
+    public void selectCard(String command) {
+        System.out.println("\nPlease select a credit card by entering the name:");
+        String selectedCardName = input.next();
+        CreditCard selectedCard = wallet.selectCreditCard(selectedCardName);
+        if (selectedCard == null) {
+            System.out.println("The credit card you selected does not exist. Please try again.");
+        } else {
+            processSelectCardCommand(command, selectedCard);
+        }
+    }
+
+    public void processSelectCardCommand(String command, CreditCard selectedCard) {
+        if (command.equals("details")) {
+            displayCardDetails(selectedCard);
+        } else if (command.equals("update")) {
+            updateCardActiveStatus(selectedCard);
+        }
+    }
+
+    public void displayCardDetails(CreditCard selectedCard) {
         System.out.println("\nHere are the details of " + selectedCard.getName() + ":");
         displayActiveStatus(selectedCard);
         System.out.println("\tLast 4 digits: " + selectedCard.getLast4Digits());
@@ -118,28 +134,21 @@ public class CreditCardManagerApp {
         System.out.println("\tPromotion details: " + selectedCard.getPromotionDetails());
     }
 
-    public void updateCardActiveStatus() {
-        CreditCard selectedCard = selectCreditCard();
+    public void displayActiveStatus(CreditCard selectedCard) {
+        if (selectedCard.getActiveStatus()) {
+            System.out.println("\t<< ACTIVE >>");
+        } else {
+            System.out.println("\t<< INACTIVE >>");
+        }
+    }
+
+    public void updateCardActiveStatus(CreditCard selectedCard) {
         if (selectedCard.getActiveStatus()) {
             selectedCard.inactivate();
             System.out.println(selectedCard.getName() + " has been inactivated.");
         } else {
             selectedCard.reactivate();
             System.out.println(selectedCard.getName() + " has been reactivated.");
-        }
-    }
-
-    public CreditCard selectCreditCard() {
-        System.out.println("\nPlease select a credit card by entering the name:");
-        String selectedCardName = input.next();
-        return wallet.selectCreditCard(selectedCardName);
-    }
-
-    public void displayActiveStatus(CreditCard selectedCard) {
-        if (selectedCard.getActiveStatus()) {
-            System.out.println("\t<< ACTIVE >>");
-        } else {
-            System.out.println("\t<< INACTIVE >>");
         }
     }
 }
