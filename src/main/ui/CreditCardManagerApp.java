@@ -3,26 +3,34 @@ package ui;
 import model.CreditCard;
 import model.Wallet;
 
-import java.util.Scanner;
+import java.util.*;
 
 // Represents a credit card manager application
-// Code partially based on Teller application presented in CPSC 210 as indicated in each method
+// Code partially based on Teller application presented in CPSC 210 as indicated for specific methods
 public class CreditCardManagerApp {
+    public static final List<Integer> monthsWith31Days = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+    public static final List<Integer> monthsWith30Days = Arrays.asList(4, 6, 9, 11);
+
     private Wallet wallet;
     private Scanner input;
 
+    // EFFECTS: runs the credit card manager application
+    // Code based on Teller application
     public CreditCardManagerApp() {
         runManager();
     }
 
-    public void runManager() {
+    // MODIFIES: this
+    // EFFECTS: processes user input
+    // Code based on Teller application
+    private void runManager() {
         boolean usingManager = true;
         String command;
 
         init();
 
         while (usingManager) {
-            mainMenuGreeting();
+            displayMainMenuGreeting();
             command = input.next();
             command = command.toLowerCase();
 
@@ -35,25 +43,34 @@ public class CreditCardManagerApp {
         System.out.println("\nThank you for stopping by. See you soon.");
     }
 
-    public void init() {
+    // MODIFIES: this
+    // EFFECTS: initializes wallet with 2 credit cards and input
+    // Code based on Teller application
+    private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         wallet = new Wallet();
-        CreditCard creditCard1 = new CreditCard("Bank A Rewards",
-                4030, 2023, 10, 20,
+
+        CreditCard creditCard1 = new CreditCard("Bank A Gourmet Rewards Extra",
+                4030,
+                2023,
+                10,
+                20,
                 "1 reward points per $1 spent on groceries or restaurants");
-        CreditCard creditCard2 = new CreditCard("Bank B Cash Back",
-                9217, 2025, 5, 16,
-                "2% cash back on all purchases");
-        CreditCard creditCard3 = new CreditCard("Bank C Business Travel",
-                3967, 2024, 8, 29,
+
+        CreditCard creditCard2 = new CreditCard("Bank B Business Travel",
+                3967,
+                2024,
+                8,
+                29,
                 "0.1 miles per $10 spent on travel expenses");
+
         wallet.addCreditCard(creditCard1);
         wallet.addCreditCard(creditCard2);
-        wallet.addCreditCard(creditCard3);
     }
 
-    public void mainMenuGreeting() {
+    // EFFECTS: displays main menu of options with greeting to user
+    private void displayMainMenuGreeting() {
         System.out.println("\nWelcome to your Personal Credit Card Manager. How may I help you today?");
         System.out.println("\tTo add a new credit card, enter 'add'.");
         System.out.println("\tTo view your list of credit cards, enter 'list'.");
@@ -62,7 +79,10 @@ public class CreditCardManagerApp {
         System.out.println("\tTo close the application, enter 'close'.");
     }
 
-    public void processMainMenuCommand(String command) {
+    // MODIFIES: this
+    // EFFECTS: processes user command from main menu
+    // Code based on Teller application
+    private void processMainMenuCommand(String command) {
         if (command.equals("add")) {
             collectNewCardInfo();
         } else if (command.equals("list")) {
@@ -74,39 +94,155 @@ public class CreditCardManagerApp {
         }
     }
 
-    public void collectNewCardInfo() {
-        System.out.println("\nPlease enter the name of your new credit card:");
-        String newCardName = input.next();
-        System.out.println("Please enter the last 4 digits of " + newCardName + ":");
-        int newCardLast4Digits = input.nextInt();
-        System.out.println("Please enter the promotion end year of " + newCardName + ":");
-        int newCardPromotionEndYear = input.nextInt();
-        System.out.println("Please enter the promotion end month of " + newCardName + ":");
-        int newCardPromotionEndMonth = input.nextInt();
-        System.out.println("Please enter the promotion end date of " + newCardName + ":");
-        int newCardPromotionEndDate = input.nextInt();
-        System.out.println("Please enter the promotion details of " + newCardName + ":");
-        String newCardPromotionDetails = input.next();
+    // MODIFIES: this
+    // EFFECTS: adds credit card with given info to wallet, or displays error message if info is invalid
+    private void collectNewCardInfo() {
+        String newCardName = collectUniqueName();
+        if (newCardName != null) {
+            int newCardLast4Digits = collectValidLast4Digits();
+            if (newCardLast4Digits != -1) {
+                int newCardPromotionEndYear = collectValidPromotionEndYear();
+                if (newCardPromotionEndYear != -1) {
+                    int newCardPromotionEndMonth = collectValidPromotionEndMonth();
+                    if (newCardPromotionEndMonth != -1) {
+                        int newCardPromotionEndDate = collectValidPromotionEndDate(newCardPromotionEndYear,
+                                newCardPromotionEndMonth);
+                        if (newCardPromotionEndDate != -1) {
+                            String newCardPromotionDetails = collectPromotionDetails();
 
-        wallet.addCreditCard(new CreditCard(newCardName,
-                newCardLast4Digits,
-                newCardPromotionEndYear,
-                newCardPromotionEndMonth,
-                newCardPromotionEndDate,
-                newCardPromotionDetails));
-        System.out.println(newCardName + " has been added.");
+                            wallet.addCreditCard(new CreditCard(newCardName, newCardLast4Digits,
+                                    newCardPromotionEndYear, newCardPromotionEndMonth, newCardPromotionEndDate,
+                                    newCardPromotionDetails));
+                            System.out.println(newCardName + " has been added.");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Your new credit card has not been added. Please try again.");
     }
 
-    public void displayCardList() {
+    // EFFECTS: prompts user for and returns name of new credit card if it is non-empty and unique, or null if it
+    //          is empty or another card with given name already exists in wallet
+    private String collectUniqueName() {
+        System.out.println("\nPlease enter the name of your new credit card:");
+        String newCardName = input.next();
+        if (newCardName.equals("")) {
+            System.out.println("Your new credit card cannot have an empty name.");
+            return null;
+        } else if (wallet.selectCreditCard(newCardName) == null) {
+            return newCardName;
+        } else {
+            System.out.println("A credit card with the name " + newCardName + " already exists.");
+            return null;
+        }
+    }
+
+    // EFFECTS: prompts user for and returns last 4 digits of new credit card if it is between [0, 9999], or
+    //          -1 otherwise
+    private int collectValidLast4Digits() {
+        System.out.println("Please enter the last 4 digits of your new credit card:");
+        if (input.hasNextInt()) {
+            int newCardLast4Digits = input.nextInt();
+            if ((0 <= newCardLast4Digits) && (newCardLast4Digits <= 9999)) {
+                return newCardLast4Digits;
+            }
+        } else {
+            input.next();
+        }
+        System.out.println("The last 4 digits you entered are invalid.");
+        return -1;
+    }
+
+    // EFFECTS: prompts user for and returns promotion end year of new credit card if it is between [2022, 2122], or
+    //          -1 otherwise
+    private int collectValidPromotionEndYear() {
+        System.out.println("Please enter the promotion end year of your new credit card:");
+        if (input.hasNextInt()) {
+            int newCardPromotionEndYear = input.nextInt();
+            if ((2022 <= newCardPromotionEndYear) && (newCardPromotionEndYear <= 2122)) {
+                return newCardPromotionEndYear;
+            }
+        } else {
+            input.next();
+        }
+        System.out.println("The promotion end year you entered is invalid.");
+        return -1;
+    }
+
+    // EFFECTS: prompts user for and returns promotion end month of new credit card if it is between [1, 12], or
+    //          -1 otherwise
+    private int collectValidPromotionEndMonth() {
+        System.out.println("Please enter the promotion end month of your new credit card:");
+        if (input.hasNextInt()) {
+            int newCardPromotionEndMonth = input.nextInt();
+            if ((1 <= newCardPromotionEndMonth) && (newCardPromotionEndMonth <= 12)) {
+                return newCardPromotionEndMonth;
+            }
+        } else {
+            input.next();
+        }
+        System.out.println("The promotion end month you entered is invalid.");
+        return -1;
+    }
+
+    // EFFECTS: prompts user for and returns promotion end date of new credit card if it is between [1, 31] and
+    //          forms a valid date with newCardPromotionEndYear and newCardPromotionEndMonth, or -1 otherwise
+    private int collectValidPromotionEndDate(int newCardPromotionEndYear, int newCardPromotionEndMonth) {
+        System.out.println("Please enter the promotion end date of your new credit card:");
+        if (input.hasNextInt()) {
+            int newCardPromotionEndDate = input.nextInt();
+            if (monthsWith31Days.contains(newCardPromotionEndMonth)) {
+                if ((1 <= newCardPromotionEndDate) && (newCardPromotionEndDate <= 31)) {
+                    return newCardPromotionEndDate;
+                }
+            } else if (monthsWith30Days.contains(newCardPromotionEndMonth)) {
+                if ((1 <= newCardPromotionEndDate) && (newCardPromotionEndDate <= 30)) {
+                    return newCardPromotionEndDate;
+                }
+            } else if (isValidFebruaryDate(newCardPromotionEndYear, newCardPromotionEndDate)) {
+                return newCardPromotionEndDate;
+            }
+        } else {
+            input.next();
+        }
+        System.out.println("The promotion end date you entered is invalid.");
+        return -1;
+    }
+
+    // EFFECTS: returns true if newCardPromotionEndDate is a valid date in February of newCardPromotionEndYear, or
+    //          false otherwise
+    private boolean isValidFebruaryDate(int newCardPromotionEndYear, int newCardPromotionEndDate) {
+        if ((newCardPromotionEndYear % 4 != 0)
+                || ((newCardPromotionEndYear % 100 == 0) && (newCardPromotionEndYear % 400 != 0))) {
+            return ((1 <= newCardPromotionEndDate) && (newCardPromotionEndDate <= 28));
+        } else {
+            return ((1 <= newCardPromotionEndDate) && (newCardPromotionEndDate <= 29));
+        }
+    }
+
+    // EFFECTS: prompts user for and returns promotion details of new credit card
+    private String collectPromotionDetails() {
+        System.out.println("Please enter the promotion details of your new credit card:");
+        return input.next();
+    }
+
+    // EFFECTS: returns a numbered list of credit cards in wallet
+    private void displayCardList() {
         System.out.println("\nHere is a list of your credit cards:");
         int i = 1;
         for (CreditCard c : wallet.getCreditCardList()) {
-            System.out.println("\t" + Integer.toString(i) + ". " + c.getName());
+            System.out.println("\t" + i + ". " + c.getName());
             i = i + 1;
         }
     }
 
-    public void selectCard(String command) {
+    // REQUIRES: command is one of "details" or "update"
+    // MODIFIES: this
+    // EFFECTS: prompts user to select a credit card in wallet and applies command to selected credit card, or
+    //          displays error message if selected credit card does not exist
+    private void selectCard(String command) {
         System.out.println("\nPlease select a credit card by entering the name:");
         String selectedCardName = input.next();
         CreditCard selectedCard = wallet.selectCreditCard(selectedCardName);
@@ -117,15 +253,20 @@ public class CreditCardManagerApp {
         }
     }
 
-    public void processSelectCardCommand(String command, CreditCard selectedCard) {
+    // REQUIRES: command is one of "details" or "update"
+    // MODIFIES: this
+    // EFFECTS: processes user command and applies to selectedCard
+    // Code based on Teller application
+    private void processSelectCardCommand(String command, CreditCard selectedCard) {
         if (command.equals("details")) {
             displayCardDetails(selectedCard);
         } else if (command.equals("update")) {
-            updateCardActiveStatus(selectedCard);
+            switchCardActiveStatus(selectedCard);
         }
     }
 
-    public void displayCardDetails(CreditCard selectedCard) {
+    // EFFECTS: displays details of selectedCard
+    private void displayCardDetails(CreditCard selectedCard) {
         System.out.println("\nHere are the details of " + selectedCard.getName() + ":");
         displayActiveStatus(selectedCard);
         System.out.println("\tLast 4 digits: " + selectedCard.getLast4Digits());
@@ -134,7 +275,8 @@ public class CreditCardManagerApp {
         System.out.println("\tPromotion details: " + selectedCard.getPromotionDetails());
     }
 
-    public void displayActiveStatus(CreditCard selectedCard) {
+    // EFFECTS: displays active status of selectedCard in all caps
+    private void displayActiveStatus(CreditCard selectedCard) {
         if (selectedCard.getActiveStatus()) {
             System.out.println("\t<< ACTIVE >>");
         } else {
@@ -142,7 +284,9 @@ public class CreditCardManagerApp {
         }
     }
 
-    public void updateCardActiveStatus(CreditCard selectedCard) {
+    // MODIFIES: this
+    // EFFECTS: switches selectedCard to opposite active status
+    private void switchCardActiveStatus(CreditCard selectedCard) {
         if (selectedCard.getActiveStatus()) {
             selectedCard.inactivate();
             System.out.println(selectedCard.getName() + " has been inactivated.");

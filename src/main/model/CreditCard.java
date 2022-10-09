@@ -10,9 +10,9 @@ public class CreditCard {
     private String promotionDetails;
     private boolean isActive;
 
-    // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122] AND
-    //           promotionEndMonth is between [1, 12] AND promotionEndDate is between [1, 31] AND promotionEndYear,
-    //           promotionEndMonth, and promotionEndDate form a valid date in the future
+    // REQUIRES: last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122] AND promotionEndMonth
+    //           is between [1, 12] AND promotionEndDate is between [1, 31] AND promotionEndYear, promotionEndMonth,
+    //           and promotionEndDate form a valid date
     // EFFECTS: creates a new credit card object
     public CreditCard(String name,
                       int last4Digits,

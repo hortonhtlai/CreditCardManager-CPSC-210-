@@ -1,10 +1,12 @@
-package model;
+package test;
 
+import model.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Unit tests for CreditCard class
 class CreditCardTest {
     private CreditCard testCreditCard1;
     private CreditCard testCreditCard2;
@@ -17,6 +19,7 @@ class CreditCardTest {
                 12,
                 31,
                 "2% cash back on all purchases");
+
         testCreditCard2 = new CreditCard("Bank B Travel Rewards",
                 4917,
                 2053,
@@ -46,16 +49,28 @@ class CreditCardTest {
     }
 
     @Test
-    public void testInactivate() {
+    public void testInactivateOnce() {
         testCreditCard1.inactivate();
         assertFalse(testCreditCard1.getActiveStatus());
     }
 
     @Test
-    public void testReactivate() {
+    public void testReactivateOnce() {
         testCreditCard2.inactivate();
         assertFalse(testCreditCard2.getActiveStatus());
         testCreditCard2.reactivate();
         assertTrue(testCreditCard2.getActiveStatus());
+    }
+
+    @Test
+    public void testInactivateReactivateMultipleTimes() {
+        testCreditCard1.inactivate();
+        assertFalse(testCreditCard1.getActiveStatus());
+        testCreditCard1.reactivate();
+        assertTrue(testCreditCard1.getActiveStatus());
+        testCreditCard1.inactivate();
+        assertFalse(testCreditCard1.getActiveStatus());
+        testCreditCard1.reactivate();
+        assertTrue(testCreditCard1.getActiveStatus());
     }
 }

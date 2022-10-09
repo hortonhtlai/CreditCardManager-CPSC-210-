@@ -12,18 +12,18 @@ public class Wallet {
         creditCardList = new ArrayList<>();
     }
 
-    // REQUIRES: newCard is not already in wallet
+    // REQUIRES: newCard specified by name is not already in wallet
     // MODIFIES: this
     // EFFECTS: adds newCard to wallet
     public void addCreditCard(CreditCard newCard) {
         creditCardList.add(newCard);
     }
 
-    // EFFECTS: returns credit card with given name
+    // EFFECTS: returns credit card with case-insensitive queryName in wallet, or null if no such card is found
     public CreditCard selectCreditCard(String queryName) {
         queryName = queryName.toLowerCase();
         String cardName;
-        for (CreditCard c: creditCardList) {
+        for (CreditCard c : creditCardList) {
             cardName = c.getName();
             cardName = cardName.toLowerCase();
             if (cardName.equals(queryName)) {

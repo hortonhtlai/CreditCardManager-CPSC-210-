@@ -1,12 +1,13 @@
-package model;
+package test;
 
+import model.CreditCard;
+import model.Wallet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+// Unit tests for Wallet class
 public class WalletTest {
     private Wallet testWallet1;
     private CreditCard testCreditCard1;
@@ -15,12 +16,14 @@ public class WalletTest {
     @BeforeEach
     public void runBefore() {
         testWallet1 = new Wallet();
+
         testCreditCard1 = new CreditCard("Bank A Cash Back",
                 0000,
                 2022,
                 12,
                 31,
                 "2% cash back on all purchases");
+
         testCreditCard2 = new CreditCard("Bank B Travel Rewards",
                 4917,
                 2053,
@@ -55,6 +58,7 @@ public class WalletTest {
         testWallet1.addCreditCard(testCreditCard1);
         testWallet1.addCreditCard(testCreditCard2);
         assertEquals(testCreditCard1, testWallet1.selectCreditCard("Bank A Cash Back"));
-        assertEquals(testCreditCard2, testWallet1.selectCreditCard("Bank B Travel Rewards"));
+        assertEquals(testCreditCard2, testWallet1.selectCreditCard("bAnK b tRaVeL rEwArDs"));
+        assertNull(testWallet1.selectCreditCard("bank c air miles"));
     }
 }
