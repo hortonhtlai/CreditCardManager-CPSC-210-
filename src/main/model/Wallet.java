@@ -3,23 +3,23 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Represents a wallet
+// Represents a wallet for storing credit cards
 public class Wallet {
     private List<CreditCard> creditCardList;
 
-    // EFFECTS: creates a new wallet object
+    // EFFECTS: creates a new wallet object with no credit cards
     public Wallet() {
         creditCardList = new ArrayList<>();
     }
 
-    // REQUIRES: newCard specified by name is not already in wallet
+    // REQUIRES: newCard identified by unique name is not already in this wallet
     // MODIFIES: this
-    // EFFECTS: adds newCard to wallet
+    // EFFECTS: adds newCard to this wallet
     public void addCreditCard(CreditCard newCard) {
         creditCardList.add(newCard);
     }
 
-    // EFFECTS: returns credit card with case-insensitive queryName in wallet, or null if no such card is found
+    // EFFECTS: returns credit card with case-insensitive queryName in this wallet, or null if no such card is found
     public CreditCard selectCreditCard(String queryName) {
         queryName = queryName.toLowerCase();
         String cardName;
@@ -33,7 +33,6 @@ public class Wallet {
         return null;
     }
 
-    // EFFECTS: returns list of credit cards in wallet
     public List<CreditCard> getCreditCardList() {
         return creditCardList;
     }

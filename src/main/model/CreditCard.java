@@ -1,6 +1,6 @@
 package model;
 
-// Represents a credit card
+// Represents a credit card with unique name as identifier, active status, and info regarding promotions
 public class CreditCard {
     private String name;
     private int last4Digits;
@@ -10,10 +10,10 @@ public class CreditCard {
     private String promotionDetails;
     private boolean isActive;
 
-    // REQUIRES: last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122] AND promotionEndMonth
-    //           is between [1, 12] AND promotionEndDate is between [1, 31] AND promotionEndYear, promotionEndMonth,
-    //           and promotionEndDate form a valid date
-    // EFFECTS: creates a new credit card object
+    // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122]
+    //           AND promotionEndYear, promotionEndMonth, and promotionEndDate form a valid date
+    // EFFECTS: creates a new credit card object set to active with given name, last4Digits, promotionEndYear,
+    //          promotionEndMonth, promotionEndDate, and promotionDetails
     public CreditCard(String name,
                       int last4Digits,
                       int promotionEndYear,
@@ -29,51 +29,44 @@ public class CreditCard {
         this.isActive = true;
     }
 
-    // REQUIRES: credit card is active
+    // REQUIRES: this credit card is active
     // MODIFIES: this
-    // EFFECTS: switches credit card to inactive
+    // EFFECTS: switches this credit card to inactive
     public void inactivate() {
         isActive = false;
     }
 
-    // REQUIRES: credit card is inactive
+    // REQUIRES: this credit card is inactive
     // MODIFIES: this
-    // EFFECTS: switches credit card to active
+    // EFFECTS: switches this credit card to active
     public void reactivate() {
         isActive = true;
     }
 
-    // EFFECTS: returns name of credit card
     public String getName() {
         return name;
     }
 
-    // EFFECTS: returns last4Digits of credit card
     public int getLast4Digits() {
         return last4Digits;
     }
 
-    // EFFECTS: returns promotionEndYear of credit card
     public int getPromotionEndYear() {
         return promotionEndYear;
     }
 
-    // EFFECTS: returns promotionEndMonth of credit card
     public int getPromotionEndMonth() {
         return promotionEndMonth;
     }
 
-    // EFFECTS: returns promotionEndDate of credit card
     public int getPromotionEndDate() {
         return promotionEndDate;
     }
 
-    // EFFECTS: returns promotionDetails of credit card
     public String getPromotionDetails() {
         return promotionDetails;
     }
 
-    // EFFECTS: returns true if credit card is active or false otherwise
     public boolean getActiveStatus() {
         return isActive;
     }

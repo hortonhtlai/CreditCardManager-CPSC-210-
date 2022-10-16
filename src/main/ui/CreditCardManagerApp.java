@@ -21,7 +21,7 @@ public class CreditCardManagerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: processes user input
+    // EFFECTS: processes user input into the credit card manager application
     // Code based on Teller application
     private void runManager() {
         boolean usingManager = true;
@@ -44,7 +44,7 @@ public class CreditCardManagerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes wallet with 2 credit cards and input
+    // EFFECTS: initializes wallet with 2 credit cards
     // Code based on Teller application
     private void init() {
         input = new Scanner(System.in);
@@ -69,7 +69,7 @@ public class CreditCardManagerApp {
         wallet.addCreditCard(creditCard2);
     }
 
-    // EFFECTS: displays main menu of options with greeting to user
+    // EFFECTS: displays main menu of options with greetings to user
     private void displayMainMenuGreeting() {
         System.out.println("\nWelcome to your Personal Credit Card Manager. How may I help you today?");
         System.out.println("\tTo add a new credit card, enter 'add'.");
@@ -95,7 +95,7 @@ public class CreditCardManagerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds credit card with given info to wallet, or displays error message if info is invalid
+    // EFFECTS: adds credit card with user-entered info to wallet, or displays error message if info is invalid
     private void collectNewCardInfo() {
         String newCardName = collectUniqueName();
         if (newCardName != null) {
@@ -109,7 +109,6 @@ public class CreditCardManagerApp {
                                 newCardPromotionEndMonth);
                         if (newCardPromotionEndDate != -1) {
                             String newCardPromotionDetails = collectPromotionDetails();
-
                             wallet.addCreditCard(new CreditCard(newCardName, newCardLast4Digits,
                                     newCardPromotionEndYear, newCardPromotionEndMonth, newCardPromotionEndDate,
                                     newCardPromotionDetails));
@@ -124,7 +123,7 @@ public class CreditCardManagerApp {
     }
 
     // EFFECTS: prompts user for and returns name of new credit card if it is non-empty and unique, or null if it
-    //          is empty or another card with given name already exists in wallet
+    //          is empty or another card with user-entered name already exists in wallet
     private String collectUniqueName() {
         System.out.println("\nPlease enter the name of your new credit card:");
         String newCardName = input.next();
@@ -187,8 +186,8 @@ public class CreditCardManagerApp {
         return -1;
     }
 
-    // EFFECTS: prompts user for and returns promotion end date of new credit card if it is between [1, 31] and
-    //          forms a valid date with newCardPromotionEndYear and newCardPromotionEndMonth, or -1 otherwise
+    // EFFECTS: prompts user for and returns promotion end date of new credit card if it forms a valid date with
+    //          newCardPromotionEndYear and newCardPromotionEndMonth, or -1 otherwise
     private int collectValidPromotionEndDate(int newCardPromotionEndYear, int newCardPromotionEndMonth) {
         System.out.println("Please enter the promotion end date of your new credit card:");
         if (input.hasNextInt()) {
@@ -228,7 +227,7 @@ public class CreditCardManagerApp {
         return input.next();
     }
 
-    // EFFECTS: returns a numbered list of credit cards in wallet
+    // EFFECTS: displays a numbered list of names of credit cards in wallet
     private void displayCardList() {
         System.out.println("\nHere is a list of your credit cards:");
         int i = 1;
@@ -270,7 +269,7 @@ public class CreditCardManagerApp {
         System.out.println("\nHere are the details of " + selectedCard.getName() + ":");
         displayActiveStatus(selectedCard);
         System.out.println("\tLast 4 digits: " + selectedCard.getLast4Digits());
-        System.out.println("\tPromotion end date (DD-MM-YYYY): " + selectedCard.getPromotionEndDate() + "-"
+        System.out.println("\tPromotion end date (D-M-Y): " + selectedCard.getPromotionEndDate() + "-"
                 + selectedCard.getPromotionEndMonth() + "-" + selectedCard.getPromotionEndYear());
         System.out.println("\tPromotion details: " + selectedCard.getPromotionDetails());
     }

@@ -20,15 +20,15 @@ public class WalletTest {
         testCreditCard1 = new CreditCard("Bank A Cash Back",
                 0000,
                 2022,
-                12,
-                31,
+                9,
+                28,
                 "2% cash back on all purchases");
 
         testCreditCard2 = new CreditCard("Bank B Travel Rewards",
                 4917,
                 2053,
-                03,
-                02,
+                12,
+                31,
                 "3X reward points per $1 spent on flights");
     }
 
@@ -54,11 +54,23 @@ public class WalletTest {
     }
 
     @Test
-    public void testSelectCreditCard() {
+    public void testSelectCreditCardFoundCaseMatch() {
         testWallet1.addCreditCard(testCreditCard1);
         testWallet1.addCreditCard(testCreditCard2);
         assertEquals(testCreditCard1, testWallet1.selectCreditCard("Bank A Cash Back"));
+    }
+
+    @Test
+    public void testSelectCreditCardFoundCaseInsensitive() {
+        testWallet1.addCreditCard(testCreditCard1);
+        testWallet1.addCreditCard(testCreditCard2);
         assertEquals(testCreditCard2, testWallet1.selectCreditCard("bAnK b tRaVeL rEwArDs"));
+    }
+
+    @Test
+    public void testSelectCreditCardNotFound() {
+        testWallet1.addCreditCard(testCreditCard1);
+        testWallet1.addCreditCard(testCreditCard2);
         assertNull(testWallet1.selectCreditCard("bank c air miles"));
     }
 }
