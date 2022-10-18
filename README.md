@@ -22,7 +22,12 @@ users will be reaping these financial benefits without a hitch.
 
 ### User Stories
 
+Phase 0
 - As a user, I want to be able to add a credit card to my wallet
 - As a user, I want to be able to view the list of credit cards in my wallet
 - As a user, I want to be able to select a credit card and check its promotion details and end date
 - As a user, I want to be able to mark a credit card in my wallet as inactive
+
+Phase 2
+- As a user, I want to be able to save my list of credit cards to file
+- As a user, I want to be able to load my list of credit cards from file
