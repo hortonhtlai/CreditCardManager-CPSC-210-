@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // Represents a credit card with unique name as identifier, active status, and info regarding promotions
 public class CreditCard {
     private String name;
@@ -69,5 +71,10 @@ public class CreditCard {
 
     public boolean getActiveStatus() {
         return isActive;
+    }
+
+    // TODO
+    public JSONObject toJson() {
+        return null;
     }
 }
