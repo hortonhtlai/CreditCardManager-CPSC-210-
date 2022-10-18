@@ -73,8 +73,17 @@ public class CreditCard {
         return isActive;
     }
 
-    // TODO
+    // EFFECTS: returns this credit card as JSON object
+    // Code based on Workroom application
     public JSONObject toJson() {
-        return null;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("last 4 digits", last4Digits);
+        jsonObject.put("promotion end year", promotionEndYear);
+        jsonObject.put("promotion end month", promotionEndMonth);
+        jsonObject.put("promotion end date", promotionEndDate);
+        jsonObject.put("promotion details", promotionDetails);
+        jsonObject.put("is active", isActive);
+        return jsonObject;
     }
 }
