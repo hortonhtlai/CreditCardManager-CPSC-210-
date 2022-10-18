@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,5 +37,10 @@ public class Wallet {
 
     public List<CreditCard> getCreditCardList() {
         return creditCardList;
+    }
+
+    // TODO
+    public JSONObject toJson() {
+        return null; // stub
     }
 }
