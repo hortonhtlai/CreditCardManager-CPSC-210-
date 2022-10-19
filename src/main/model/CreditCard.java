@@ -1,9 +1,10 @@
 package model;
 
 import org.json.JSONObject;
+import persistence.Writable;
 
 // Represents a credit card with unique name as identifier, active status, and info regarding promotions
-public class CreditCard {
+public class CreditCard implements Writable {
     private String name;
     private int last4Digits;
     private int promotionEndYear;
@@ -42,7 +43,7 @@ public class CreditCard {
                       int promotionEndMonth,
                       int promotionEndDate,
                       String promotionDetails) {
-        new CreditCard(name,
+        this(name,
                 last4Digits,
                 promotionEndYear,
                 promotionEndMonth,
@@ -95,6 +96,7 @@ public class CreditCard {
 
     // EFFECTS: returns this credit card as JSON object
     // Code based on Workroom application
+    @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", name);

@@ -2,13 +2,14 @@ package model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a wallet for storing credit cards
 // Code partially based on Workroom application presented in CPSC 210 as indicated for specific methods
-public class Wallet {
+public class Wallet implements Writable {
     private List<CreditCard> creditCardList;
 
     // EFFECTS: creates a new wallet object with no credit cards
@@ -43,6 +44,7 @@ public class Wallet {
 
     // EFFECTS: returns this wallet as JSON object
     // Code based on Workroom application
+    @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("credit card list", creditCardListToJson());

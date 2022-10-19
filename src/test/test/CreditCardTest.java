@@ -21,7 +21,26 @@ class CreditCardTest {
     }
 
     @Test
-    public void testConstructor() {
+    public void testConstructorWithActiveStatus() {
+        CreditCard testCreditCard2 = new CreditCard("Bank B Travel Rewards",
+                4917,
+                2053,
+                12,
+                31,
+                "3X reward points per $1 spent on flights",
+                false);
+
+        assertEquals("Bank B Travel Rewards", testCreditCard2.getName());
+        assertEquals(4917, testCreditCard2.getLast4Digits());
+        assertEquals(2053, testCreditCard2.getPromotionEndYear());
+        assertEquals(12, testCreditCard2.getPromotionEndMonth());
+        assertEquals(31, testCreditCard2.getPromotionEndDate());
+        assertEquals("3X reward points per $1 spent on flights", testCreditCard2.getPromotionDetails());
+        assertFalse(testCreditCard2.getActiveStatus());
+    }
+
+    @Test
+    public void testConstructorNoActiveStatus() {
         assertEquals("Bank A Cash Back", testCreditCard1.getName());
         assertEquals(0, testCreditCard1.getLast4Digits());
         assertEquals(2022, testCreditCard1.getPromotionEndYear());
