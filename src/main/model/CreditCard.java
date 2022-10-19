@@ -14,6 +14,26 @@ public class CreditCard {
 
     // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122]
     //           AND promotionEndYear, promotionEndMonth, and promotionEndDate form a valid date
+    // EFFECTS: creates a new credit card object with given name, last4Digits, promotionEndYear, promotionEndMonth,
+    //          promotionEndDate, promotionDetails, and active status set to isActive
+    public CreditCard(String name,
+                      int last4Digits,
+                      int promotionEndYear,
+                      int promotionEndMonth,
+                      int promotionEndDate,
+                      String promotionDetails,
+                      boolean isActive) {
+        this.name = name;
+        this.last4Digits = last4Digits;
+        this.promotionEndYear = promotionEndYear;
+        this.promotionEndMonth = promotionEndMonth;
+        this.promotionEndDate = promotionEndDate;
+        this.promotionDetails = promotionDetails;
+        this.isActive = isActive;
+    }
+
+    // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122]
+    //           AND promotionEndYear, promotionEndMonth, and promotionEndDate form a valid date
     // EFFECTS: creates a new credit card object set to active with given name, last4Digits, promotionEndYear,
     //          promotionEndMonth, promotionEndDate, and promotionDetails
     public CreditCard(String name,
@@ -22,13 +42,13 @@ public class CreditCard {
                       int promotionEndMonth,
                       int promotionEndDate,
                       String promotionDetails) {
-        this.name = name;
-        this.last4Digits = last4Digits;
-        this.promotionEndYear = promotionEndYear;
-        this.promotionEndMonth = promotionEndMonth;
-        this.promotionEndDate = promotionEndDate;
-        this.promotionDetails = promotionDetails;
-        this.isActive = true;
+        new CreditCard(name,
+                last4Digits,
+                promotionEndYear,
+                promotionEndMonth,
+                promotionEndDate,
+                promotionDetails,
+                true);
     }
 
     // REQUIRES: this credit card is active

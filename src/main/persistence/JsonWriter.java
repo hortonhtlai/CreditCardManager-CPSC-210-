@@ -20,7 +20,7 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens writer or throw FileNotFoundException if destination file cannot be opened for writing
+    // EFFECTS: opens writer or throws FileNotFoundException if destination file cannot be opened for writing
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destination));
     }
@@ -28,8 +28,8 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: writes JSON representation of wallet to destination file
     public void write(Wallet wallet) {
-        JSONObject walletInJson = wallet.toJson();
-        saveToFile(walletInJson.toString(TAB));
+        JSONObject walletJsonObject = wallet.toJson();
+        saveToFile(walletJsonObject.toString(TAB));
     }
 
     // MODIFIES: this
@@ -39,8 +39,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes walletInJson to destination file
-    public void saveToFile(String walletInJson) {
-        writer.print(walletInJson);
+    // EFFECTS: writes walletJsonText to destination file
+    public void saveToFile(String walletJsonText) {
+        writer.print(walletJsonText);
     }
 }
