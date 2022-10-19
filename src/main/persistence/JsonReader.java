@@ -23,7 +23,7 @@ public class JsonReader {
 
     // EFFECTS: reads and returns wallet from source file or throws IOException if error occurs when reading data
     //          from source file
-    public Wallet read(String source) throws IOException {
+    public Wallet read() throws IOException {
         String walletJsonText = readFile(source);
         JSONObject walletJsonObject = new JSONObject(walletJsonText);
         return parseWallet(walletJsonObject);

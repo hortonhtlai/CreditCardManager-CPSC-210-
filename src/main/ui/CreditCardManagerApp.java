@@ -2,17 +2,25 @@ package ui;
 
 import model.CreditCard;
 import model.Wallet;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 // Represents a credit card manager application
-// Code partially based on Teller application presented in CPSC 210 as indicated for specific methods
+// Code partially based on Teller application and Workroom application presented in CPSC 210 as indicated for
+// specific methods
 public class CreditCardManagerApp {
+    private static final String JSON_STORE = "./data/wallet.json";
     public static final List<Integer> monthsWith31Days = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
     public static final List<Integer> monthsWith30Days = Arrays.asList(4, 6, 9, 11);
 
     private Wallet wallet;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the credit card manager application
     // Code based on Teller application
@@ -45,10 +53,12 @@ public class CreditCardManagerApp {
 
     // MODIFIES: this
     // EFFECTS: initializes wallet with 2 credit cards
-    // Code based on Teller application
+    // Code based on Teller application and Workroom application
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         wallet = new Wallet();
 
         CreditCard creditCard1 = new CreditCard("Bank A Gourmet Rewards Extra",
@@ -76,6 +86,8 @@ public class CreditCardManagerApp {
         System.out.println("\tTo view your list of credit cards, enter 'list'.");
         System.out.println("\tTo check the details of a credit card, enter 'details'.");
         System.out.println("\tTo update the active status of a credit card, enter 'update'.");
+        System.out.println("\tTo save the current state of your wallet, enter 'save'.");
+        System.out.println("\tTo load the last saved state of your wallet, enter 'load'.");
         System.out.println("\tTo close the application, enter 'close'.");
     }
 
@@ -89,6 +101,10 @@ public class CreditCardManagerApp {
             displayCardList();
         } else if ((command.equals("details")) || (command.equals("update"))) {
             selectCard(command);
+        } else if (command.equals("save")) {
+            saveWallet();
+        } else if (command.equals("load")) {
+            loadWallet();
         } else {
             System.out.println("\nThe command you entered is invalid. Please try again.");
         }
@@ -292,6 +308,31 @@ public class CreditCardManagerApp {
         } else {
             selectedCard.reactivate();
             System.out.println(selectedCard.getName() + " has been reactivated.");
+        }
+    }
+
+    // EFFECTS: saves wallet to file at JSON_STORE
+    // Code based on Workroom application
+    private void saveWallet() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(wallet);
+            jsonWriter.close();
+            System.out.println("Your wallet has been saved to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Failed to write to file at " + JSON_STORE + ". Please try again.");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads wallet from file at JSON_STORE
+    // Code based on Workroom application
+    private void loadWallet() {
+        try {
+            wallet = jsonReader.read();
+            System.out.println("Your wallet has been loaded from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Failed to read from file at " + JSON_STORE + ". Please try again.");
         }
     }
 }
