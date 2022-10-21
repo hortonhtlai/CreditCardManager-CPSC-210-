@@ -33,25 +33,6 @@ public class CreditCard implements Writable {
         this.isActive = isActive;
     }
 
-    // REQUIRES: name is unique AND last4Digits is between [0, 9999] AND promotionEndYear is between [2022, 2122]
-    //           AND promotionEndYear, promotionEndMonth, and promotionEndDate form a valid date
-    // EFFECTS: creates a new credit card object set to active with given name, last4Digits, promotionEndYear,
-    //          promotionEndMonth, promotionEndDate, and promotionDetails
-    public CreditCard(String name,
-                      int last4Digits,
-                      int promotionEndYear,
-                      int promotionEndMonth,
-                      int promotionEndDate,
-                      String promotionDetails) {
-        this(name,
-                last4Digits,
-                promotionEndYear,
-                promotionEndMonth,
-                promotionEndDate,
-                promotionDetails,
-                true);
-    }
-
     // REQUIRES: this credit card is active
     // MODIFIES: this
     // EFFECTS: switches this credit card to inactive

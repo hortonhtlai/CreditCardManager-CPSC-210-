@@ -52,7 +52,7 @@ public class CreditCardManagerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes wallet with 2 credit cards
+    // EFFECTS: initializes wallet
     // Code based on Teller application and Workroom application
     private void init() {
         input = new Scanner(System.in);
@@ -60,23 +60,6 @@ public class CreditCardManagerApp {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         wallet = new Wallet();
-
-        CreditCard creditCard1 = new CreditCard("Bank A Gourmet Rewards Extra",
-                4030,
-                2023,
-                10,
-                20,
-                "1 reward points per $1 spent on groceries or restaurants");
-
-        CreditCard creditCard2 = new CreditCard("Bank B Business Travel",
-                3967,
-                2024,
-                8,
-                29,
-                "0.1 miles per $10 spent on travel expenses");
-
-        wallet.addCreditCard(creditCard1);
-        wallet.addCreditCard(creditCard2);
     }
 
     // EFFECTS: displays main menu of options with greetings to user
@@ -111,7 +94,7 @@ public class CreditCardManagerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds credit card with user-entered info to wallet, or displays error message if info is invalid
+    // EFFECTS: adds active credit card with user-entered info to wallet or displays error message if info is invalid
     private void collectNewCardInfo() {
         String newCardName = collectUniqueName();
         if (newCardName != null) {
@@ -127,7 +110,7 @@ public class CreditCardManagerApp {
                             String newCardPromotionDetails = collectPromotionDetails();
                             wallet.addCreditCard(new CreditCard(newCardName, newCardLast4Digits,
                                     newCardPromotionEndYear, newCardPromotionEndMonth, newCardPromotionEndDate,
-                                    newCardPromotionDetails));
+                                    newCardPromotionDetails, true));
                             System.out.println(newCardName + " has been added.");
                             return;
                         }

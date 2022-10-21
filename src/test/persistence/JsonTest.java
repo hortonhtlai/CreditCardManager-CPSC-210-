@@ -4,6 +4,7 @@ import model.CreditCard;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// Unit test methods for Json objects
 public class JsonTest {
     protected void checkCreditCard(String name,
                                    int last4Digits,

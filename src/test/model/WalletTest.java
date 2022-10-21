@@ -20,14 +20,16 @@ public class WalletTest {
                 2022,
                 9,
                 28,
-                "2% cash back on all purchases");
+                "2% cash back on all purchases",
+                true);
 
         testCreditCard2 = new CreditCard("Bank B Travel Rewards",
                 4917,
                 2053,
                 12,
                 31,
-                "3X reward points per $1 spent on flights");
+                "3X reward points per $1 spent on flights",
+                false);
     }
 
     @Test

@@ -31,7 +31,7 @@ public class JsonReader {
 
     // EFFECTS: reads source file as string and returns it, or throws IOException if error occurs when reading data
     //          from source file
-    public String readFile(String source) throws IOException {
+    private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
         try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s));
@@ -40,7 +40,7 @@ public class JsonReader {
     }
 
     // EFFECTS: parses wallet from walletJsonObject and returns it
-    public Wallet parseWallet(JSONObject walletJsonObject) {
+    private Wallet parseWallet(JSONObject walletJsonObject) {
         Wallet wallet = new Wallet();
         addCreditCardList(wallet, walletJsonObject);
         return wallet;

@@ -40,7 +40,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes walletJsonText to destination file
-    public void saveToFile(String walletJsonText) {
+    private void saveToFile(String walletJsonText) {
         writer.print(walletJsonText);
     }
 }
