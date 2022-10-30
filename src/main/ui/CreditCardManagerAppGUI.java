@@ -25,6 +25,7 @@ public class CreditCardManagerAppGUI extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
     private static final String JSON_STORE = "./data/wallet.json";
+    private static final String INACTIVATE_IMAGE = "./data/inactivateCreditCard.jpg";
     public static final List<Integer> monthsWith31Days = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
     public static final List<Integer> monthsWith30Days = Arrays.asList(4, 6, 9, 11);
 
@@ -113,8 +114,14 @@ public class CreditCardManagerAppGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             int selectedCardIndex = creditCardJList.getSelectedIndex();
             if (selectedCardIndex != -1) {
-                switchCardActiveStatus(wallet.getCreditCardList().get(selectedCardIndex));
+                CreditCard selectedCard = wallet.getCreditCardList().get(selectedCardIndex);
+                switchCardActiveStatus(selectedCard);
                 creditCardListToListModel();
+                if (!(selectedCard.getActiveStatus())) {
+                    JOptionPane.showInternalMessageDialog(managerPanel, null, "Inactivating Credit Card",
+                            JOptionPane.INFORMATION_MESSAGE,
+                            new ImageIcon(INACTIVATE_IMAGE, "image"));
+                }
             }
         }
     }
