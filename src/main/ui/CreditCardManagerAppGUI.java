@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static javax.swing.SwingConstants.CENTER;
+import static javax.swing.SwingConstants.*;
 
 // Represents a credit card manager application
 // Code partially based on Teller application and Workroom application presented in CPSC 210 as indicated for
@@ -35,6 +35,14 @@ public class CreditCardManagerAppGUI extends JFrame {
     private JList creditCardJList;
     private JToggleButton filterForInactiveCards;
 
+    private JPanel creditCardAdderPanel;
+    private JTextField nameField;
+    private JTextField last4DigitsField;
+    private JTextField promotionEndYearField;
+    private JTextField promotionEndMonthField;
+    private JTextField promotionEndDateField;
+    private JTextArea promotionDetailsArea;
+
     // EFFECTS: runs the credit card manager application
     // Code based on Teller application and Alarm System application
     public CreditCardManagerAppGUI() {
@@ -54,7 +62,7 @@ public class CreditCardManagerAppGUI extends JFrame {
 
         addCreditCardListPanel();
         addButtonPanel();
-        addSwitchActiveStatusPanel();
+        addCreditCardAdderPanel();
 
         managerPanel.pack();
         managerPanel.setVisible(true);
@@ -72,11 +80,14 @@ public class CreditCardManagerAppGUI extends JFrame {
         creditCardJList.setSelectedIndex(0);
         creditCardJList.setVisibleRowCount(10);
         JScrollPane creditCardListScrollPane = new JScrollPane(creditCardJList);
-
         JLabel creditCardListLabel = new JLabel("Credit Card List", CENTER);
         creditCardListScrollPane.setColumnHeaderView(creditCardListLabel);
 
-        managerPanel.add(creditCardListScrollPane, BorderLayout.CENTER);
+        JPanel creditCardListPanel = new JPanel(new BorderLayout());
+        creditCardListPanel.add(creditCardListScrollPane, BorderLayout.CENTER);
+        creditCardListPanel.add(new JButton(new SwitchActiveStatusAction()), BorderLayout.SOUTH);
+
+        managerPanel.add(creditCardListPanel, BorderLayout.CENTER);
     }
 
     private void creditCardListToListModel() {
@@ -127,6 +138,7 @@ public class CreditCardManagerAppGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            creditCardAdderPanel.setVisible(true);
         }
     }
 
@@ -164,9 +176,65 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
     }
 
-    private void addSwitchActiveStatusPanel() {
-        JButton inactivateReactivate = new JButton(new SwitchActiveStatusAction());
-        managerPanel.add(inactivateReactivate, BorderLayout.NORTH);
+    private void addCreditCardAdderPanel() {
+        nameField = new JTextField();
+        last4DigitsField = new JTextField();
+        promotionEndYearField = new JTextField();
+        promotionEndMonthField = new JTextField();
+        promotionEndDateField = new JTextField();
+        promotionDetailsArea = new JTextArea();
+        promotionDetailsArea.setColumns(20);
+        promotionDetailsArea.setRows(3);
+        promotionDetailsArea.setLineWrap(true);
+
+        JPanel trivialInfoPanel = new JPanel(new GridLayout(0, 1));
+        trivialInfoPanel.add(new JLabel("Name of new credit card:"));
+        trivialInfoPanel.add(nameField);
+        trivialInfoPanel.add(new JLabel("Last 4 digits:"));
+        trivialInfoPanel.add(last4DigitsField);
+        trivialInfoPanel.add(new JLabel("Promotion end year:"));
+        trivialInfoPanel.add(promotionEndYearField);
+        trivialInfoPanel.add(new JLabel("Promotion end month:"));
+        trivialInfoPanel.add(promotionEndMonthField);
+        trivialInfoPanel.add(new JLabel("Promotion end date:"));
+        trivialInfoPanel.add(promotionEndDateField);
+        trivialInfoPanel.add(new JLabel("Promotion details:"));
+
+        creditCardAdderPanel = new JPanel(new BorderLayout());
+        creditCardAdderPanel.add(trivialInfoPanel, BorderLayout.NORTH);
+        creditCardAdderPanel.add(promotionDetailsArea, BorderLayout.CENTER);
+        creditCardAdderPanel.add(new JButton(new SubmitNewCardInfoAction()), BorderLayout.SOUTH);
+        creditCardAdderPanel.setVisible(false);
+
+        managerPanel.add(creditCardAdderPanel, BorderLayout.EAST);
+    }
+
+    private class SubmitNewCardInfoAction extends AbstractAction {
+        SubmitNewCardInfoAction() {
+            super("Submit New Card Info");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String newCardName = nameField.getText();
+            int newCardLast4Digits = Integer.parseInt(last4DigitsField.getText());
+            int newCardPromotionEndYear = Integer.parseInt(last4DigitsField.getText());
+            int newCardPromotionEndMonth = Integer.parseInt(last4DigitsField.getText());
+            int newCardPromotionEndDate = Integer.parseInt(last4DigitsField.getText());
+            String newCardPromotionDetails = promotionDetailsArea.getText();
+
+            wallet.addCreditCard(new CreditCard(newCardName,
+                    newCardLast4Digits,
+                    newCardPromotionEndYear,
+                    newCardPromotionEndMonth,
+                    newCardPromotionEndDate,
+                    newCardPromotionDetails,
+                    true));
+
+            creditCardListToListModel();
+
+            creditCardAdderPanel.setVisible(false);
+        }
     }
 
     // MODIFIES: this
