@@ -6,8 +6,6 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
@@ -21,7 +19,7 @@ import static javax.swing.SwingConstants.CENTER;
 // Represents a credit card manager application
 // Code partially based on Teller application and Workroom application presented in CPSC 210 as indicated for
 // specific methods
-public class CreditCardManagerAppGUI extends JFrame implements ListSelectionListener {
+public class CreditCardManagerAppGUI extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
     private static final String JSON_STORE = "./data/wallet.json";
@@ -32,9 +30,9 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
     private Scanner input;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private JDesktopPane desktop;
     private JInternalFrame managerPanel;
     private DefaultListModel creditCardListModel;
+    private JList creditCardJList;
     private JToggleButton filterForInactiveCards;
 
     // EFFECTS: runs the credit card manager application
@@ -42,11 +40,11 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
     public CreditCardManagerAppGUI() {
         init();
 
-        desktop = new JDesktopPane();
+        JDesktopPane desktop = new JDesktopPane();
         managerPanel = new JInternalFrame("Manager",
+                true,
                 false,
-                false,
-                false,
+                true,
                 false);
         managerPanel.setLayout(new BorderLayout());
 
@@ -56,6 +54,7 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
         addCreditCardListPanel();
         addButtonPanel();
+        addSwitchActiveStatusPanel();
 
         managerPanel.pack();
         managerPanel.setVisible(true);
@@ -68,21 +67,20 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
     private void addCreditCardListPanel() {
         creditCardListModel = new DefaultListModel<>();
         creditCardListToListModel();
-        JList creditCardJList = new JList(creditCardListModel);
+        creditCardJList = new JList(creditCardListModel);
         creditCardJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         creditCardJList.setSelectedIndex(0);
-        creditCardJList.addListSelectionListener(this);
         creditCardJList.setVisibleRowCount(10);
         JScrollPane creditCardListScrollPane = new JScrollPane(creditCardJList);
 
         JLabel creditCardListLabel = new JLabel("Credit Card List", CENTER);
         creditCardListScrollPane.setColumnHeaderView(creditCardListLabel);
 
-        JButton inactivateReactivate = new JButton(new SwitchActiveStatusAction());
         managerPanel.add(creditCardListScrollPane, BorderLayout.CENTER);
     }
 
     private void creditCardListToListModel() {
+        creditCardListModel.removeAllElements();
         List<CreditCard> creditCardList = wallet.getCreditCardList();
         int i = 1;
         for (CreditCard c : creditCardList) {
@@ -93,11 +91,6 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
         }
     }
 
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-
-    }
-
     private class SwitchActiveStatusAction extends AbstractAction {
         SwitchActiveStatusAction() {
             super("Switch Active Status");
@@ -105,6 +98,11 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            int selectedCardIndex = creditCardJList.getSelectedIndex();
+            if (selectedCardIndex != -1) {
+                switchCardActiveStatus(wallet.getCreditCardList().get(selectedCardIndex));
+                creditCardListToListModel();
+            }
         }
     }
 
@@ -139,7 +137,6 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            creditCardListModel.removeAllElements();
             creditCardListToListModel();
         }
     }
@@ -163,9 +160,13 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
         @Override
         public void actionPerformed(ActionEvent e) {
             loadWallet();
-            creditCardListModel.removeAllElements();
             creditCardListToListModel();
         }
+    }
+
+    private void addSwitchActiveStatusPanel() {
+        JButton inactivateReactivate = new JButton(new SwitchActiveStatusAction());
+        managerPanel.add(inactivateReactivate, BorderLayout.NORTH);
     }
 
     // MODIFIES: this
@@ -427,10 +428,10 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
     private void switchCardActiveStatus(CreditCard selectedCard) {
         if (selectedCard.getActiveStatus()) {
             selectedCard.inactivate();
-            System.out.println(selectedCard.getName() + " has been inactivated.");
+//            System.out.println(selectedCard.getName() + " has been inactivated.");
         } else {
             selectedCard.reactivate();
-            System.out.println(selectedCard.getName() + " has been reactivated.");
+//            System.out.println(selectedCard.getName() + " has been reactivated.");
         }
     }
 
