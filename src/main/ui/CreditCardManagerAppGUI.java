@@ -35,6 +35,7 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
     private JDesktopPane desktop;
     private JInternalFrame managerPanel;
     private DefaultListModel creditCardListModel;
+    private JToggleButton filterForInactiveCards;
 
     // EFFECTS: runs the credit card manager application
     // Code based on Teller application and Alarm System application
@@ -66,7 +67,7 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
     private void addCreditCardListPanel() {
         creditCardListModel = new DefaultListModel<>();
-        creditCardListToListModel(false);
+        creditCardListToListModel();
         JList creditCardJList = new JList(creditCardListModel);
         creditCardJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         creditCardJList.setSelectedIndex(0);
@@ -76,14 +77,16 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
         JLabel creditCardListLabel = new JLabel("Credit Card List", CENTER);
         creditCardListScrollPane.setColumnHeaderView(creditCardListLabel);
+
+        JButton inactivateReactivate = new JButton(new SwitchActiveStatusAction());
         managerPanel.add(creditCardListScrollPane, BorderLayout.CENTER);
     }
 
-    private void creditCardListToListModel(boolean filterForInactive) {
+    private void creditCardListToListModel() {
         List<CreditCard> creditCardList = wallet.getCreditCardList();
         int i = 1;
         for (CreditCard c : creditCardList) {
-            if (!(filterForInactive) || !(c.getActiveStatus())) {
+            if (!(filterForInactiveCards.isSelected()) || !(c.getActiveStatus())) {
                 creditCardListModel.addElement(i + ". " + displayActiveStatus(c) + " " + c.getName());
                 i = i + 1;
             }
@@ -95,11 +98,24 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
     }
 
+    private class SwitchActiveStatusAction extends AbstractAction {
+        SwitchActiveStatusAction() {
+            super("Switch Active Status");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+    }
+
     private void addButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4, 1));
+
         buttonPanel.add(new JButton(new AddCreditCardAction()));
-        buttonPanel.add(new JButton(new FilterInactiveCardsAction()));
+        filterForInactiveCards = new JToggleButton(new FilterInactiveCardsAction());
+        filterForInactiveCards.setSelected(false);
+        buttonPanel.add(filterForInactiveCards);
         buttonPanel.add(new JButton(new SaveWalletAction()));
         buttonPanel.add(new JButton(new LoadWalletAction()));
 
@@ -123,6 +139,8 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            creditCardListModel.removeAllElements();
+            creditCardListToListModel();
         }
     }
 
@@ -146,7 +164,7 @@ public class CreditCardManagerAppGUI extends JFrame implements ListSelectionList
         public void actionPerformed(ActionEvent e) {
             loadWallet();
             creditCardListModel.removeAllElements();
-            creditCardListToListModel(false);
+            creditCardListToListModel();
         }
     }
 
