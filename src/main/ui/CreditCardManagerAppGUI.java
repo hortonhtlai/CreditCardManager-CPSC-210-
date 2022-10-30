@@ -13,14 +13,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static javax.swing.SwingConstants.CENTER;
+
 // Represents a credit card manager application
 // Code partially based on Teller application and Workroom application presented in CPSC 210 as indicated for
 // specific methods
 public class CreditCardManagerAppGUI extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
-    private JDesktopPane desktop;
-    private JInternalFrame managerPanel;
     private static final String JSON_STORE = "./data/wallet.json";
     public static final List<Integer> monthsWith31Days = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
     public static final List<Integer> monthsWith30Days = Arrays.asList(4, 6, 9, 11);
@@ -29,10 +29,15 @@ public class CreditCardManagerAppGUI extends JFrame {
     private Scanner input;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    private JDesktopPane desktop;
+    private JInternalFrame managerPanel;
+    private DefaultListModel creditCardListModel;
 
     // EFFECTS: runs the credit card manager application
     // Code based on Teller application and Alarm System application
     public CreditCardManagerAppGUI() {
+        init();
+
         desktop = new JDesktopPane();
         managerPanel = new JInternalFrame("Manager",
                 false,
@@ -45,12 +50,35 @@ public class CreditCardManagerAppGUI extends JFrame {
         setTitle("Credit Card Manager Application");
         setSize(WIDTH, HEIGHT);
 
+        addCreditCardListPanel();
+
         managerPanel.pack();
         managerPanel.setVisible(true);
         desktop.add(managerPanel);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private void addCreditCardListPanel() {
+        creditCardListModel = new DefaultListModel<>();
+        creditCardListToListModel();
+        JList creditCardJList = new JList(creditCardListModel);
+        creditCardJList.setVisibleRowCount(10);
+        JScrollPane creditCardListScrollPane = new JScrollPane(creditCardJList);
+
+        JLabel creditCardListLabel = new JLabel("Credit Card List", CENTER);
+        creditCardListScrollPane.setColumnHeaderView(creditCardListLabel);
+        managerPanel.add(creditCardListScrollPane, BorderLayout.CENTER);
+    }
+
+    private void creditCardListToListModel() {
+        List<CreditCard> creditCardList = wallet.getCreditCardList();
+        int i = 1;
+        for (CreditCard c : creditCardList) {
+            creditCardListModel.addElement(i + ". " + c.getName());
+            i = i + 1;
+        }
     }
 
     // MODIFIES: this
@@ -326,9 +354,9 @@ public class CreditCardManagerAppGUI extends JFrame {
             jsonWriter.open();
             jsonWriter.write(wallet);
             jsonWriter.close();
-            System.out.println("Your wallet has been saved to " + JSON_STORE);
+//            System.out.println("Your wallet has been saved to " + JSON_STORE);
         } catch (FileNotFoundException e) {
-            System.out.println("Failed to write to file at " + JSON_STORE + ". Please try again.");
+//            System.out.println("Failed to write to file at " + JSON_STORE + ". Please try again.");
         }
     }
 
@@ -338,9 +366,9 @@ public class CreditCardManagerAppGUI extends JFrame {
     private void loadWallet() {
         try {
             wallet = jsonReader.read();
-            System.out.println("Your wallet has been loaded from " + JSON_STORE);
+//            System.out.println("Your wallet has been loaded from " + JSON_STORE);
         } catch (IOException e) {
-            System.out.println("Failed to read from file at " + JSON_STORE + ". Please try again.");
+//            System.out.println("Failed to read from file at " + JSON_STORE + ". Please try again.");
         }
     }
 }
