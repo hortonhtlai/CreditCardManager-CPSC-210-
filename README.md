@@ -31,3 +31,27 @@ Phase 0
 Phase 2
 - As a user, I want to be able to save my list of credit cards to file
 - As a user, I want to be able to load my list of credit cards from file
+
+# Instructions for Grader
+
+- You can generate the first required event related to adding Xs to a Y by...
+  - Click the button labelled "Add Credit Card"
+  - Enter a unique non-empty name in the field under "Name of new credit card:"
+  - Enter 4 digits in the field under "Last 4 digits:"
+  - Enter a year between 2022 and 2012 in the field under "Promotion End Year:"
+  - Enter a month between 1 and 12 in the field under "Promotion End Month:"
+  - Enter a valid date for the given year and month in the field under "Promotion End Date:"
+  - Enter any string in the field under "Promotion details:"
+  - Click the button labelled "Submit New Card Info"
+- You can generate the second required event related to adding Xs to a Y by...
+  - Click on the button labelled "Filter For Inactive Credit Cards"
+  - Click on the button labelled "Filter For Inactive Credit Cards" again
+- You can locate my visual component by...
+  - Click on an active credit card in the scroll pane under "Credit Card List"
+  - Click on the button labelled "Switch Active Status"
+- You can save the state of my application by...
+  - Click on the button labelled "Save Wallet"
+  - Click on the button labelled "OK" in the dialog
+- You can reload the state of my application by...
+  - Click on the button labelled "Load Wallet"
+  - Click on the button labelled "OK" in the dialog
