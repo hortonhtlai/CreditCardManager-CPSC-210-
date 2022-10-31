@@ -14,9 +14,9 @@ import java.util.List;
 
 import static javax.swing.SwingConstants.*;
 
-// Represents a credit card manager application
-// Code partially based on Teller application and Workroom application presented in CPSC 210 as indicated for
-// specific methods
+// Represents a credit card manager application with graphical user interface
+// Code partially based on Teller application, Workroom application, and Alarm System application presented in
+// CPSC 210 as indicated for specific methods
 public class CreditCardManagerAppGUI extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
@@ -27,46 +27,46 @@ public class CreditCardManagerAppGUI extends JFrame {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private JInternalFrame managerPanel;
-    private DefaultListModel creditCardListModel;
-    private JList creditCardJList;
+    private DefaultListModel<String> creditCardListModel;
+    private JList<String> creditCardJList;
     private JToggleButton filterForInactiveCards;
-
     private CardAdder creditCardAdderPanel;
 
-    // EFFECTS: runs the credit card manager application
+    // EFFECTS: runs the credit card manager application and initializes the graphical user interface
     // Code based on Teller application and Alarm System application
     public CreditCardManagerAppGUI() {
         init();
 
         JDesktopPane desktop = new JDesktopPane();
+        setContentPane(desktop);
+        setTitle("Credit Card Manager Application");
+        setSize(WIDTH, HEIGHT);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+
         managerPanel = new JInternalFrame("Manager",
                 true,
                 false,
                 true,
                 false);
         managerPanel.setLayout(new BorderLayout());
-
-        setContentPane(desktop);
-        setTitle("Credit Card Manager Application");
-        setSize(WIDTH, HEIGHT);
+        managerPanel.pack();
+        managerPanel.setVisible(true);
+        managerPanel.reshape(0, 0, 700, 500);
 
         addCreditCardListPanel();
         addButtonPanel();
         addCreditCardAdderPanel();
 
-        managerPanel.pack();
-        managerPanel.setVisible(true);
-        managerPanel.reshape(0, 0, 700, 500);
         desktop.add(managerPanel);
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds credit card list panel with switch active status button to manager panel of this
     private void addCreditCardListPanel() {
         creditCardListModel = new DefaultListModel<>();
         creditCardListToListModel();
-        creditCardJList = new JList(creditCardListModel);
+        creditCardJList = new JList<>(creditCardListModel);
         creditCardJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         creditCardJList.setSelectedIndex(0);
         creditCardJList.setVisibleRowCount(20);
@@ -81,6 +81,10 @@ public class CreditCardManagerAppGUI extends JFrame {
         managerPanel.add(creditCardListPanel, BorderLayout.CENTER);
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates creditCardListModel of this to include active credit cards if filterForInactiveCards is not
+    //          selected or exclude active credit cards if it is selected, and display filtered credit cards in a
+    //          numbered list
     void creditCardListToListModel() {
         creditCardListModel.removeAllElements();
         List<CreditCard> creditCardList = wallet.getCreditCardList();
@@ -93,11 +97,17 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
     }
 
+    // Represents the action event when the user clicks on the button labelled "Switch Active Status"
+    // Code based on Alarm System application
     private class SwitchActiveStatusAction extends AbstractAction {
+        // EFFECTS: creates a new SwitchActiveStatusAction object
         SwitchActiveStatusAction() {
             super("Switch Active Status");
         }
 
+        // MODIFIES: this
+        // EFFECTS: switches active status of selected credit card in wallet of this, and displays inactivation image
+        //          if the switch represents card inactivation
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedCardIndex = creditCardJList.getSelectedIndex();
@@ -114,6 +124,9 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds button panel to manager panel of this
+    // Code based on Alarm System application
     private void addButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4, 1));
@@ -128,11 +141,16 @@ public class CreditCardManagerAppGUI extends JFrame {
         managerPanel.add(buttonPanel, BorderLayout.WEST);
     }
 
+    // Represents the action event when the user clicks on the button labelled "Add Credit Card"
+    // Code based on Alarm System application
     private class AddCreditCardAction extends AbstractAction {
+        // EFFECTS: creates a new AddCreditCardAction object
         AddCreditCardAction() {
             super("Add Credit Card");
         }
 
+        // MODIFIES: this
+        // EFFECTS: expands creditCardAdderPanel of this if collapsed, or collapses and clears it if expanded
         @Override
         public void actionPerformed(ActionEvent e) {
             if (creditCardAdderPanel.isVisible()) {
@@ -144,33 +162,48 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
     }
 
+    // Represents the action event when the user clicks on the button labelled "Filter for Inactive Credit Cards"
+    // Code based on Alarm System application
     private class FilterInactiveCardsAction extends AbstractAction {
+        // EFFECTS: creates a new FilterInactiveCardsAction object
         FilterInactiveCardsAction() {
             super("Filter for Inactive Credit Cards");
         }
 
+        // MODIFIES: this
+        // EFFECTS: updates creditCardListModel of this and credit card list display to include active credit cards
+        //          if filterForInactiveCards is not selected or exclude active credit cards if it is selected
         @Override
         public void actionPerformed(ActionEvent e) {
             creditCardListToListModel();
         }
     }
 
+    // Represents the action event when the user clicks on the button labelled "Save Wallet"
+    // Code based on Alarm System application
     private class SaveWalletAction extends AbstractAction {
+        // EFFECTS: creates a new SaveWalletAction object
         SaveWalletAction() {
             super("Save Wallet");
         }
 
+        // EFFECTS: saves wallet from this to file at JSON_STORE
         @Override
         public void actionPerformed(ActionEvent e) {
             saveWallet();
         }
     }
 
+    // Represents the action event when the user clicks on the button labelled "Load Wallet"
+    // Code based on Alarm System application
     private class LoadWalletAction extends AbstractAction {
+        // EFFECTS: creates a new LoadWalletAction object
         LoadWalletAction() {
             super("Load Wallet");
         }
 
+        // MODIFIES: this
+        // EFFECTS: loads wallet from file at JSON_STORE to wallet of this and updates credit card list display
         @Override
         public void actionPerformed(ActionEvent e) {
             loadWallet();
@@ -178,6 +211,8 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds credit card adder panel to manager panel of this
     private void addCreditCardAdderPanel() {
         creditCardAdderPanel = new CardAdder(this);
         creditCardAdderPanel.setVisible(false);
@@ -186,7 +221,7 @@ public class CreditCardManagerAppGUI extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: initializes wallet
-    // Code based on Teller application and Workroom application
+    // Code based on Workroom application
     private void init() {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
@@ -241,6 +276,7 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
     }
 
+    // EFFECTS: returns wallet in this credit card manager app
     Wallet getWallet() {
         return wallet;
     }
