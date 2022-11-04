@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 
 // Represents a writer that writes JSON representation of wallet to file
 // Code based on Workroom application presented in CPSC 210
+// Workroom: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;

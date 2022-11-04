@@ -1,9 +1,9 @@
 package ui;
 
 import model.CreditCard;
-import model.exception.DuplicateNameException;
-import model.exception.EmptyNameException;
-import model.exception.OutOfRangeException;
+import ui.exception.DuplicateNameException;
+import ui.exception.EmptyNameException;
+import ui.exception.OutOfRangeException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,7 @@ import java.util.List;
 
 // Represents the expandable credit card adder panel of the manager panel in a credit card manager application
 // Code partially based on Alarm System application presented in CPSC 210 as indicated for specific methods
+// Alarm System: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 public class CardAdder extends JPanel {
     public static final java.util.List<Integer> monthsWith31Days = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
     public static final List<Integer> monthsWith30Days = Arrays.asList(4, 6, 9, 11);

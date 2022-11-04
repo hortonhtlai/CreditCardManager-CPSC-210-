@@ -9,6 +9,7 @@ import java.util.List;
 
 // Represents a wallet for storing credit cards
 // Code partially based on Workroom application presented in CPSC 210 as indicated for specific methods
+// Workroom: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 public class Wallet implements Writable {
     private List<CreditCard> creditCardList;
 

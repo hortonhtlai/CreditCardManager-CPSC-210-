@@ -36,14 +36,17 @@ Phase 2
 
 - You can generate the first required event related to adding Xs to a Y by...
   - Click the button labelled "Add Credit Card"
-  - Enter a unique non-empty name in the field under "Name of new credit card:"
-  - Enter 4 digits in the field under "Last 4 digits:"
-  - Enter a year between 2022 and 2012 in the field under "Promotion End Year:"
-  - Enter a month between 1 and 12 in the field under "Promotion End Month:"
-  - Enter a valid date for the given year and month in the field under "Promotion End Date:"
-  - Enter any string in the field under "Promotion details:"
+  - Enter the requested info in the adder panel (display error messages if invalid)
+    - A unique non-empty name in the field under "Name of new credit card:"
+    - 4 digits in the field under "Last 4 digits:"
+    - A year between 2022 and 2012 in the field under "Promotion End Year:"
+    - A month between 1 and 12 in the field under "Promotion End Month:"
+    - A valid date for the given year and month in the field under "Promotion End Date:"
+    - Any string in the field under "Promotion details:"
   - Click the button labelled "Submit New Card Info"
 - You can generate the second required event related to adding Xs to a Y by...
+  - (Need some active and some inactive credit cards to see effect, add some by following 1st required event section,
+    inactivate some by following visual component section)
   - Click on the button labelled "Filter For Inactive Credit Cards"
   - Click on the button labelled "Filter For Inactive Credit Cards" again
 - You can locate my visual component by...

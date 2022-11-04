@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 // Represents a reader that reads wallet from JSON data stored in file
 // Code based on Workroom application presented in CPSC 210
+// Workroom: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 public class JsonReader {
     private String source;
 

@@ -17,6 +17,9 @@ import static javax.swing.SwingConstants.*;
 // Represents a credit card manager application with graphical user interface
 // Code partially based on Teller application, Workroom application, and Alarm System application presented in
 // CPSC 210 as indicated for specific methods
+// Teller: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+// Workroom: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+// Alarm System: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 public class CreditCardManagerAppGUI extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;

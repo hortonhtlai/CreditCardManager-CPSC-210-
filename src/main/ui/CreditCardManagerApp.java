@@ -12,6 +12,8 @@
 //// Represents a credit card manager application
 //// Code partially based on Teller application and Workroom application presented in CPSC 210 as indicated for
 //// specific methods
+//// Teller: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+//// Workroom: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 //public class CreditCardManagerApp {
 //    private static final String JSON_STORE = "./data/wallet.json";
 //    public static final List<Integer> monthsWith31Days = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
