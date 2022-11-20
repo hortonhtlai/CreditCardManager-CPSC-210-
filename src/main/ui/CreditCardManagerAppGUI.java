@@ -44,7 +44,8 @@ public class CreditCardManagerAppGUI extends JFrame {
         setContentPane(desktop);
         setTitle("Credit Card Manager Application");
         setSize(WIDTH, HEIGHT);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new ConsolePrinter());
         setVisible(true);
 
         managerPanel = new JInternalFrame("Manager",

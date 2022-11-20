@@ -23,6 +23,8 @@ public class Wallet implements Writable {
     // EFFECTS: adds newCard to this wallet
     public void addCreditCard(CreditCard newCard) {
         creditCardList.add(newCard);
+        EventLog.getInstance().logEvent(new Event("Active " + newCard.getName() + " credit card added "
+                + "to wallet."));
     }
 
     // EFFECTS: returns credit card with case-insensitive queryName in this wallet, or null if no such card is found
