@@ -191,7 +191,7 @@ public class CardAdder extends JPanel {
         }
     }
 
-    // REQUIRES: newCardPromotionEndYear is between [2022, 2012] AND newCardPromotionEndMonth is between [1, 12]
+    // REQUIRES: newCardPromotionEndYear is between [2022, 2122] AND newCardPromotionEndMonth is between [1, 12]
     // EFFECTS: returns promotion end date of new credit card if it forms a valid date with newCardPromotionEndYear
     //          and newCardPromotionEndMonth, or throws OutOfRangeException if it is out of range, or throws
     //          NumberFormatException if newCardPromotionEndDateString does not represent an integer
