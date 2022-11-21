@@ -73,4 +73,21 @@ public class WalletTest {
         testWallet1.addCreditCard(testCreditCard2);
         assertNull(testWallet1.selectCreditCard("bank c air miles"));
     }
+
+    @Test
+    public void testGetCreditCardListByStatusNull() {
+        testWallet1.addCreditCard(testCreditCard1);
+        testWallet1.addCreditCard(testCreditCard2);
+        assertEquals(2, testWallet1.getCreditCardListByStatus(null).size());
+        assertEquals(testCreditCard1, testWallet1.getCreditCardListByStatus(null).get(0));
+        assertEquals(testCreditCard2, testWallet1.getCreditCardListByStatus(null).get(1));
+    }
+
+    @Test
+    public void testGetCreditCardListByStatusBool() {
+        testWallet1.addCreditCard(testCreditCard1);
+        testWallet1.addCreditCard(testCreditCard2);
+        assertEquals(1, testWallet1.getCreditCardListByStatus(false).size());
+        assertEquals(testCreditCard2, testWallet1.getCreditCardListByStatus(false).get(0));
+    }
 }

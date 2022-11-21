@@ -45,6 +45,20 @@ public class Wallet implements Writable {
         return creditCardList;
     }
 
+    // todo
+    public List<CreditCard> getCreditCardListByStatus(Boolean statusType) {
+        if (statusType != null) {
+            List<CreditCard> creditCardListByStatus = new ArrayList<>();
+            for (CreditCard c : creditCardList) {
+                if (c.getActiveStatus() == statusType) {
+                    creditCardListByStatus.add(c);
+                }
+            }
+            return creditCardListByStatus;
+        }
+        return getCreditCardList();
+    }
+
     // EFFECTS: returns this wallet as JSON object
     // Code based on Workroom application
     @Override

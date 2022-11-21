@@ -1,6 +1,8 @@
 package ui;
 
 import model.CreditCard;
+import model.Event;
+import model.EventLog;
 import model.Wallet;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -91,13 +93,16 @@ public class CreditCardManagerAppGUI extends JFrame {
     //          numbered list
     void creditCardListToListModel() {
         creditCardListModel.removeAllElements();
-        List<CreditCard> creditCardList = wallet.getCreditCardList();
+        List<CreditCard> creditCardList;
+        if (filterForInactiveCards == null || !filterForInactiveCards.isSelected()) {
+            creditCardList = wallet.getCreditCardList();
+        } else {
+            creditCardList = wallet.getCreditCardListByStatus(false);
+        }
         int i = 1;
         for (CreditCard c : creditCardList) {
-            if (!(filterForInactiveCards.isSelected()) || !(c.getActiveStatus())) {
-                creditCardListModel.addElement(i + ". " + displayActiveStatus(c) + " " + c.getName());
-                i = i + 1;
-            }
+            creditCardListModel.addElement(i + ". " + displayActiveStatus(c) + " " + c.getName());
+            i = i + 1;
         }
     }
 
@@ -180,6 +185,11 @@ public class CreditCardManagerAppGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             creditCardListToListModel();
+            if (filterForInactiveCards.isSelected()) {
+                EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards imposed."));
+            } else {
+                EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards removed."));
+            }
         }
     }
 

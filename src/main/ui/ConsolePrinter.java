@@ -16,9 +16,7 @@ public class ConsolePrinter extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e) {
         EventLog eventLog = EventLog.getInstance();
-        Iterator<Event> eventIterator = eventLog.iterator();
-        while (eventIterator.hasNext()) {
-            Event event = eventIterator.next();
+        for (Event event : eventLog) {
             System.out.println(event.toString());
         }
         System.exit(0);
