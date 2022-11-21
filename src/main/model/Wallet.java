@@ -20,11 +20,10 @@ public class Wallet implements Writable {
 
     // REQUIRES: newCard identified by unique name is not already in this wallet
     // MODIFIES: this
-    // EFFECTS: adds newCard to this wallet
+    // EFFECTS: adds newCard to this wallet and logs card addition
     public void addCreditCard(CreditCard newCard) {
         creditCardList.add(newCard);
-        EventLog.getInstance().logEvent(new Event("Active " + newCard.getName() + " credit card added "
-                + "to wallet."));
+        EventLog.getInstance().logEvent(new Event(newCard.getName() + " credit card added to wallet."));
     }
 
     // EFFECTS: returns credit card with case-insensitive queryName in this wallet, or null if no such card is found
@@ -45,7 +44,10 @@ public class Wallet implements Writable {
         return creditCardList;
     }
 
-    // todo
+    // REQUIRES: statusType is one of false or null
+    // EFFECTS: returns list of inactive credit cards in this wallet and logs filter imposition if statusType is
+    //          false, or returns complete list of credit cards in this wallet and logs filter removal if
+    //          statusType is null
     public List<CreditCard> getCreditCardListByStatus(Boolean statusType) {
         if (statusType != null) {
             List<CreditCard> creditCardListByStatus = new ArrayList<>();
@@ -54,8 +56,10 @@ public class Wallet implements Writable {
                     creditCardListByStatus.add(c);
                 }
             }
+            EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards imposed."));
             return creditCardListByStatus;
         }
+        EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards removed."));
         return getCreditCardList();
     }
 

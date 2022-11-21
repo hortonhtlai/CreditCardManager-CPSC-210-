@@ -1,0 +1,20 @@
+{"credit card list": [
+    {
+        "promotion end month": 10,
+        "is active": true,
+        "last 4 digits": 4030,
+        "promotion details": "1 reward points per $1 spent on groceries or restaurants",
+        "name": "Bank A Gourmet Rewards Extra",
+        "promotion end date": 20,
+        "promotion end year": 2023
+    },
+    {
+        "promotion end month": 8,
+        "is active": false,
+        "last 4 digits": 3967,
+        "promotion details": "0.1 miles per $10 spent on travel expenses",
+        "name": "Bank B Business Travel",
+        "promotion end date": 29,
+        "promotion end year": 2024
+    }
+]}

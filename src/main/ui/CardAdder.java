@@ -112,7 +112,7 @@ public class CardAdder extends JPanel {
                 newCardPromotionDetails,
                 true));
 
-        managerApp.creditCardListToListModel();
+        managerApp.creditCardListToListModel(false);
     }
 
     // EFFECTS: returns name of new credit card if it is non-empty and unique or throws EmptyNameException if it

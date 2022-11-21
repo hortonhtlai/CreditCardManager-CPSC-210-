@@ -58,3 +58,25 @@ Phase 2
 - You can reload the state of my application by...
   - Click on the button labelled "Load Wallet"
   - Click on the button labelled "OK" in the dialog
+
+# Phase 4: Task 2
+
+Sun Nov 20 17:27:59 PST 2022
+
+Bank A Gourmet Rewards Extra credit card added to wallet.
+
+Sun Nov 20 17:28:01 PST 2022
+
+Bank A Gourmet Rewards Extra credit card inactivated.
+
+Sun Nov 20 17:28:04 PST 2022
+
+Bank B Business Travel credit card reactivated.
+
+Sun Nov 20 17:28:05 PST 2022
+
+Filter for inactive credit cards imposed.
+
+Sun Nov 20 17:28:06 PST 2022
+
+Filter for inactive credit cards removed.

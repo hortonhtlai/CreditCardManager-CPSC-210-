@@ -35,7 +35,7 @@ public class CreditCard implements Writable {
 
     // REQUIRES: this credit card is active
     // MODIFIES: this
-    // EFFECTS: switches this credit card to inactive
+    // EFFECTS: switches this credit card to inactive and logs status change
     public void inactivate() {
         isActive = false;
         EventLog.getInstance().logEvent(new Event(name + " credit card inactivated."));
@@ -43,7 +43,7 @@ public class CreditCard implements Writable {
 
     // REQUIRES: this credit card is inactive
     // MODIFIES: this
-    // EFFECTS: switches this credit card to active
+    // EFFECTS: switches this credit card to active and logs status change
     public void reactivate() {
         isActive = true;
         EventLog.getInstance().logEvent(new Event(name + " credit card reactivated."));

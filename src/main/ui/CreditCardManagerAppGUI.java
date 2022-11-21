@@ -1,8 +1,6 @@
 package ui;
 
 import model.CreditCard;
-import model.Event;
-import model.EventLog;
 import model.Wallet;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -60,8 +58,8 @@ public class CreditCardManagerAppGUI extends JFrame {
         managerPanel.setVisible(true);
         managerPanel.reshape(0, 0, 700, 500);
 
-        addCreditCardListPanel();
         addButtonPanel();
+        addCreditCardListPanel();
         addCreditCardAdderPanel();
 
         desktop.add(managerPanel);
@@ -71,7 +69,7 @@ public class CreditCardManagerAppGUI extends JFrame {
     // EFFECTS: adds credit card list panel with switch active status button to manager panel of this
     private void addCreditCardListPanel() {
         creditCardListModel = new DefaultListModel<>();
-        creditCardListToListModel();
+        creditCardListToListModel(false);
         creditCardJList = new JList<>(creditCardListModel);
         creditCardJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         creditCardJList.setSelectedIndex(0);
@@ -88,14 +86,18 @@ public class CreditCardManagerAppGUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: updates creditCardListModel of this to include active credit cards if filterForInactiveCards is not
-    //          selected or exclude active credit cards if it is selected, and display filtered credit cards in a
-    //          numbered list
-    void creditCardListToListModel() {
+    // EFFECTS: updates creditCardListModel of this to include active credit cards if filterSwitched is false or
+    //          if filterForInactiveCards is not selected, or exclude active credit cards if filterForInactiveCards
+    //          is selected, and logs the filter switch if filterSwitched is true or sets filterForInactiveCards to
+    //          unselected if filterSwitched is false, and displays filtered credit cards in a numbered list
+    void creditCardListToListModel(boolean filterSwitched) {
         creditCardListModel.removeAllElements();
         List<CreditCard> creditCardList;
-        if (filterForInactiveCards == null || !filterForInactiveCards.isSelected()) {
+        if (!filterSwitched) {
             creditCardList = wallet.getCreditCardList();
+            filterForInactiveCards.setSelected(false);
+        } else if (!filterForInactiveCards.isSelected()) {
+            creditCardList = wallet.getCreditCardListByStatus(null);
         } else {
             creditCardList = wallet.getCreditCardListByStatus(false);
         }
@@ -123,7 +125,7 @@ public class CreditCardManagerAppGUI extends JFrame {
             if (selectedCardIndex != -1) {
                 CreditCard selectedCard = wallet.getCreditCardList().get(selectedCardIndex);
                 switchCardActiveStatus(selectedCard);
-                creditCardListToListModel();
+                creditCardListToListModel(false);
                 if (!(selectedCard.getActiveStatus())) {
                     JOptionPane.showInternalMessageDialog(managerPanel, null, "Inactivating Credit Card",
                             JOptionPane.INFORMATION_MESSAGE,
@@ -182,14 +184,10 @@ public class CreditCardManagerAppGUI extends JFrame {
         // MODIFIES: this
         // EFFECTS: updates creditCardListModel of this and credit card list display to include active credit cards
         //          if filterForInactiveCards is not selected or exclude active credit cards if it is selected
+        // todo
         @Override
         public void actionPerformed(ActionEvent e) {
-            creditCardListToListModel();
-            if (filterForInactiveCards.isSelected()) {
-                EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards imposed."));
-            } else {
-                EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards removed."));
-            }
+            creditCardListToListModel(true);
         }
     }
 
@@ -221,7 +219,7 @@ public class CreditCardManagerAppGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             loadWallet();
-            creditCardListToListModel();
+            creditCardListToListModel(false);
         }
     }
 

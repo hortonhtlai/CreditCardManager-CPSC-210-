@@ -5,14 +5,17 @@ import model.EventLog;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Iterator;
 
+// Represents a console printer for printing event log to console
+// Code partially based on Alarm System application presented in CPSC 210 as indicated for specific methods
+// Alarm System: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 public class ConsolePrinter extends WindowAdapter {
-    public ConsolePrinter() {
+    // EFFECTS: creates a new ConsolePrinter object
+    public ConsolePrinter() {}
 
-    }
-
-    // todo
+    // MODIFIES: this
+    // EFFECTS: prints event log to console and exits credit card manager application
+    // Code based on Alarm System application
     @Override
     public void windowClosing(WindowEvent e) {
         EventLog eventLog = EventLog.getInstance();
