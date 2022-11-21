@@ -184,7 +184,6 @@ public class CreditCardManagerAppGUI extends JFrame {
         // MODIFIES: this
         // EFFECTS: updates creditCardListModel of this and credit card list display to include active credit cards
         //          if filterForInactiveCards is not selected or exclude active credit cards if it is selected
-        // todo
         @Override
         public void actionPerformed(ActionEvent e) {
             creditCardListToListModel(true);

@@ -39,8 +39,8 @@ Phase 2
   - Enter the requested info in the adder panel (display error messages if invalid)
     - A unique non-empty name in the field under "Name of new credit card:"
     - 4 digits in the field under "Last 4 digits:"
-    - A year between 2022 and 2012 in the field under "Promotion End Year:"
-    - A month between 1 and 12 in the field under "Promotion End Month:"
+    - A year between 2022 and 2122 (inclusive) in the field under "Promotion End Year:"
+    - A month between 1 and 12 (inclusive) in the field under "Promotion End Month:"
     - A valid date for the given year and month in the field under "Promotion End Date:"
     - Any string in the field under "Promotion details:"
   - Click the button labelled "Submit New Card Info"
@@ -80,3 +80,15 @@ Filter for inactive credit cards imposed.
 Sun Nov 20 17:28:06 PST 2022
 
 Filter for inactive credit cards removed.
+
+# Phase 4: Task 3
+
+- Refactor methods in CreditCardAppGUI and CardAdder classes to convert the bidirectional relationship into a 
+unidirectional association such that CardAdder functions relatively independently and only CreditCardAppGUI contains
+a field for CardAdder to reduce coupling
+- Divide methods for generating individual panels in CreditCardAppGUI into different classes to increase cohesion
+of CreditCardAppGUI with the single responsibility of coordinating data flow between panels
+- Extract methods in CardAdder which validate user input into a new class and connect it to CardAdder through an 
+association to allow sharing of the abstracted methods with other potential future panels requiring similar validation
+- Combine methods in ui classes involved in creating and displaying confirmations, error messages, or logged events 
+to the GUI or console into a new class to introduce a single point of control for the text style of each of the types
