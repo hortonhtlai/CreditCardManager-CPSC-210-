@@ -87,7 +87,8 @@ public class WalletTest {
     public void testGetCreditCardListByStatusBool() {
         testWallet1.addCreditCard(testCreditCard1);
         testWallet1.addCreditCard(testCreditCard2);
-        assertEquals(1, testWallet1.getCreditCardListByStatus(false).size());
-        assertEquals(testCreditCard2, testWallet1.getCreditCardListByStatus(false).get(0));
+        assertEquals(2, testWallet1.getCreditCardListByStatus(false).size());
+        assertNull(testWallet1.getCreditCardListByStatus(false).get(0));
+        assertEquals(testCreditCard2, testWallet1.getCreditCardListByStatus(false).get(1));
     }
 }
