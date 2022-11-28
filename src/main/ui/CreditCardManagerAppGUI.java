@@ -103,7 +103,11 @@ public class CreditCardManagerAppGUI extends JFrame {
         }
         int i = 1;
         for (CreditCard c : creditCardList) {
-            creditCardListModel.addElement(i + ". " + displayActiveStatus(c) + " " + c.getName());
+            if (c != null) {
+                creditCardListModel.addElement(i + ". " + displayActiveStatus(c) + " " + c.getName());
+            } else {
+                creditCardListModel.addElement("\n");
+            }
             i = i + 1;
         }
     }

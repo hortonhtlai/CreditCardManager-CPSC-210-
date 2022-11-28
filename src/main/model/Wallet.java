@@ -54,6 +54,8 @@ public class Wallet implements Writable {
             for (CreditCard c : creditCardList) {
                 if (c.getActiveStatus() == statusType) {
                     creditCardListByStatus.add(c);
+                } else {
+                    creditCardListByStatus.add(null);
                 }
             }
             EventLog.getInstance().logEvent(new Event("Filter for inactive credit cards imposed."));
