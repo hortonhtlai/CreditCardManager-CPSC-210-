@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for CreditCard class
@@ -18,6 +20,7 @@ class CreditCardTest {
                 28,
                 "2% cash back on all purchases",
                 true);
+        EventLog.getInstance().clear();
     }
 
     @Test
@@ -35,6 +38,9 @@ class CreditCardTest {
     public void testInactivateOnce() {
         testCreditCard1.inactivate();
         assertFalse(testCreditCard1.getActiveStatus());
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card inactivated."));
     }
 
     @Test
@@ -43,6 +49,10 @@ class CreditCardTest {
         assertFalse(testCreditCard1.getActiveStatus());
         testCreditCard1.reactivate();
         assertTrue(testCreditCard1.getActiveStatus());
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card inactivated."));
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card reactivated."));
     }
 
     @Test
@@ -55,5 +65,11 @@ class CreditCardTest {
         assertFalse(testCreditCard1.getActiveStatus());
         testCreditCard1.reactivate();
         assertTrue(testCreditCard1.getActiveStatus());
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card inactivated."));
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card reactivated."));
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card inactivated."));
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card reactivated."));
     }
 }

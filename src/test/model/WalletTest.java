@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for Wallet class
@@ -30,6 +32,8 @@ public class WalletTest {
                 31,
                 "3X reward points per $1 spent on flights",
                 false);
+
+        EventLog.getInstance().clear();
     }
 
     @Test
@@ -42,6 +46,10 @@ public class WalletTest {
         testWallet1.addCreditCard(testCreditCard2);
         assertEquals(1, testWallet1.getCreditCardList().size());
         assertEquals(testCreditCard2, testWallet1.getCreditCardList().get(0));
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank B Travel Rewards credit card "
+                + "added to wallet."));
     }
 
     @Test
@@ -51,6 +59,12 @@ public class WalletTest {
         assertEquals(2, testWallet1.getCreditCardList().size());
         assertEquals(testCreditCard1, testWallet1.getCreditCardList().get(0));
         assertEquals(testCreditCard2, testWallet1.getCreditCardList().get(1));
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank A Cash Back credit card "
+                + "added to wallet."));
+        assertTrue(testLogIterator1.next().getDescription().equals("Bank B Travel Rewards credit card "
+                + "added to wallet."));
     }
 
     @Test
@@ -81,6 +95,11 @@ public class WalletTest {
         assertEquals(2, testWallet1.getCreditCardListByStatus(null).size());
         assertEquals(testCreditCard1, testWallet1.getCreditCardListByStatus(null).get(0));
         assertEquals(testCreditCard2, testWallet1.getCreditCardListByStatus(null).get(1));
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        testLogIterator1.next();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Filter for inactive credit cards removed."));
     }
 
     @Test
@@ -90,5 +109,10 @@ public class WalletTest {
         assertEquals(2, testWallet1.getCreditCardListByStatus(false).size());
         assertNull(testWallet1.getCreditCardListByStatus(false).get(0));
         assertEquals(testCreditCard2, testWallet1.getCreditCardListByStatus(false).get(1));
+        Iterator<Event> testLogIterator1 = EventLog.getInstance().iterator();
+        testLogIterator1.next();
+        testLogIterator1.next();
+        testLogIterator1.next();
+        assertTrue(testLogIterator1.next().getDescription().equals("Filter for inactive credit cards imposed."));
     }
 }
