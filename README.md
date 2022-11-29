@@ -83,12 +83,24 @@ Filter for inactive credit cards removed.
 
 # Phase 4: Task 3
 
-- Refactor methods in CreditCardAppGUI and CardAdder classes to convert the bidirectional relationship into a 
-unidirectional association such that CardAdder functions relatively independently and only CreditCardAppGUI contains
-a field for CardAdder to reduce coupling
-- Divide methods for generating individual panels in CreditCardAppGUI into different classes to increase cohesion
-of CreditCardAppGUI with the single responsibility of coordinating data flow between panels
-- Extract methods in CardAdder which validate user input into a new class and connect it to CardAdder through an 
-association to allow sharing of the abstracted methods with other potential future panels requiring similar validation
-- Combine methods in ui classes involved in creating and displaying confirmations, error messages, or logged events 
-to the GUI or console into a new class to introduce a single point of control for the text style of each of the types
+- CreditCardAppGUI and CardAdder has a bidirectional relationship, because CreditCardAppGUI controls the addition
+and visibility of the CardAdder panel in the overall GUI and the CardAdder gets the wallet from CreditCardAppGUI
+for adding new credit cards and updating list display. However, it is unnecessary because the wallet may be passed
+as a parameter to CardAdder such that it does not need a field for CreditCardAppGUI. Methods in CreditCardAppGUI
+and CardAdder may be refactored to convert the bidirectional relationship into a unidirectional association to
+reduce coupling
+- CreditCardAppGUI contains numerous trivial methods for generating individual panels and private classes for 
+performing button actions, but consequently it has poor cohesion. The methods and classes may be divided into 
+different classes, such as one class for only the panel of buttons with their respective private classes and one 
+class for the list display scroll pane to increase cohesion such that CreditCardAppGUI only has the single 
+responsibility of coordinating data flow between panels
+- CardAdder include methods for generating the panel and validating user input for a new credit card. The validation
+methods may be extracted into a new class connected to CardAdder through an association to increase cohesion and 
+allow the sharing of the abstracted methods with other potential future panels requiring similar validation
+- CardAdder also uses the association to CreditCardAppGUI to update the list display when adding a new credit card.
+When individual panels are extracted, the Observer design pattern may be applied to the list display scroll pane
+such that the list display is updated when changes occur in another panel or button. Hence, the bidirectional
+relationship may be replaced
+- Some methods in CreditCardAppGUI are involved in creating and displaying confirmations, error messages, or credit
+card names. These may be combined with methods in ConsolePrinter into a new class to introduce a single point of 
+control for consistent text style
